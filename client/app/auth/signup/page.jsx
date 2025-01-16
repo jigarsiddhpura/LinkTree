@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Input, Button, Card, CardBody } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const loginSchema = z.object({
+const signupschema = z.object({
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters")
 });
@@ -69,7 +69,7 @@ const EmailIcon = (props) => (
 );
 
 
-export default function LoginPage() {
+export default function SignupPage() {
     const [isVisible, setIsVisible] = useState(false);
     const router = useRouter();
 
@@ -78,7 +78,7 @@ export default function LoginPage() {
         handleSubmit,
         formState: { errors, isSubmitting }
     } = useForm({
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(signupschema),
         defaultValues: {
             email: "",
             password: ""
@@ -89,7 +89,7 @@ export default function LoginPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('/api/auth/signin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -100,15 +100,15 @@ export default function LoginPage() {
                 router.push('/');
             }
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('Signup failed:', error);
         }
     };
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
             <div className="flex flex-col w-full items-center justify-center bg-white px-4">
-                <h1 className="text-[40px] font-bold text-black mb-2">Welcome back!</h1>
-                <p className="text-gray-600 mb-6">Log in to your Linktree</p>
+                <h1 className="text-[40px] font-bold text-black mb-2">Join Linktree</h1>
+                <p className="text-gray-600 mb-6">Sign up for free!</p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md space-y-4">
                     <Input
@@ -152,21 +152,21 @@ export default function LoginPage() {
                         className="w-full bg-[var(--theme)] text-white rounded-full py-3 font-medium hover:bg-[#7C35E3] transition-colors"
                         isLoading={isSubmitting}
                     >
-                        Log in
+                        Create account
                     </Button>
                 </form>
 
-                <div className="mt-4 text-center text-sm text-gray-600">
-                    Don't have an account?{" "}
-                    <Link href="/signup" className="text-primary font-medium">
+                <div className="mt-4 mx-20 text-center text-sm text-gray-600">
+                    By clicking Create account, you agree to Linktree's privacy notice, T&Cs and to receive offers, news and updates.
+                    {/* <Link href="/signup" className="text-primary font-medium">
                         Sign Up
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
 
             <div className="hidden md:flex flex-col items-center justify-center bg-primary text-white">
                 <Image
-                    src="/login-grid-image.png"
+                    src="/signup-grid-image.png"
                     alt="Welcome illustration"
                     width={400}
                     height={300}
