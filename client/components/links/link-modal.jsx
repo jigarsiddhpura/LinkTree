@@ -16,11 +16,12 @@ export function LinkModal({
     isOpen,
     onClose,
     onSave,
+    currentProfileId,
     initialData,
     title = "Add New Link"
 }) {
     const [formData, setFormData] = useState(
-        initialData || { title: "", url: "" }
+        initialData || { title: "", url: "", position: null, "isVisible": true, "thumbnail": null }
     )
     const [errors, setErrors] = useState({})
 
