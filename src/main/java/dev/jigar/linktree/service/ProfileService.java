@@ -58,4 +58,8 @@ public class ProfileService {
         Profile saved = profileRepository.save(existing);
         return new ProfileResponseDTO(saved);
     }
+
+    public int profileCount(UUID userId) {
+        return profileRepository.profileCountbyUserId(userId);
+    }
 }
