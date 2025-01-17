@@ -91,23 +91,23 @@ export default function LoginPage() {
     const onSubmit = async (data) => {
         try {
             // Login request
-            const response = await axios.post('http://localhost:8080/api/auth/login', 
-            data,
-            {withCredentials: true}
+            const response = await axios.post('http://localhost:8080/api/auth/login',
+                data,
+                { withCredentials: true }
             );
 
             const userData = response.data;
             localStorage.setItem('userId', userData.id);
 
             // Profile count request
-            const profileCount = await axios.get(`http://localhost:8080/api/profile/${userData.id}/count`, 
+            const profileCount = await axios.get(`http://localhost:8080/api/${userData.id}/profile/count`,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 }
             );
 
             // Navigate based on profile count
-            if (profileCount.data > 0) {
+            if (profileCount.data.count > 0) {
                 router.push("/admin");
             } else {
                 router.push("/new-profile/your-username");

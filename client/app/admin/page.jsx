@@ -1,7 +1,8 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@nextui-org/button"
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, Plus } from 'lucide-react'
 import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
 import { ProfileInfo } from "@/components/profile/profile-info"
@@ -10,6 +11,33 @@ import { MobilePreview } from "@/components/preview/mobile-preview"
 import { PromoCard } from "@/components/promo-card"
 
 export default function Home() {
+    const [userId, setUserId] = useState(null);
+    const [currentProfile, setCurrentProfile] = useState(null)
+
+    useEffect(() => {
+        setUserId(localStorage.getItem("userId"))
+    }, [])
+
+    useEffect(() => {
+        if (!userId) return
+        const fetchDefaultProfile = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/${userId}/profiles`)
+                if (!response.ok) throw new Error('Failed to fetch profiles')
+                const profiles = await response.json()
+                if (profiles.length > 0) {
+                    setCurrentProfile(profiles[0])
+                }
+            } catch (error) {
+                console.error('Error fetching default profile:', error)
+            }
+        }
+
+        fetchDefaultProfile()
+    }, [userId])
+
+    if (!userId || !currentProfile) return null
+
     return (
         <div className="flex min-h-screen">
             <Sidebar />
@@ -19,7 +47,7 @@ export default function Home() {
                     <Header />
 
                     <div className="flex items-start justify-between mb-8">
-                        <ProfileInfo />
+                        <ProfileInfo currentProfile={currentProfile}/>
                         <Button
                             isIconOnly
                             variant="light"
@@ -29,11 +57,15 @@ export default function Home() {
                         </Button>
                     </div>
 
-                    <LinkCollection />
+                    <LinkCollection currentProfileId={currentProfile.id}/>
                 </div>
 
                 <div className="fixed bottom-8 left-8">
-                    <PromoCard />
+                    <PromoCard
+                        userId={userId}
+                        currentProfile={currentProfile}
+                        onProfileChange={setCurrentProfile}
+                    />
                 </div>
             </main>
 

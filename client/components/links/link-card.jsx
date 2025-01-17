@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardBody } from "@nextui-org/card"
 import { Button } from "@nextui-org/button"
 import { Switch } from "@nextui-org/switch"
-// import { Link } from "@/types/link"
+
 import { CSS } from "@dnd-kit/utilities"
 import { useSortable } from "@dnd-kit/sortable"
 import { GripVertical, Pencil, Trash2, MoreHorizontal } from 'lucide-react'
@@ -15,12 +15,6 @@ import {
     DropdownItem,
 } from "@nextui-org/dropdown"
 
-// interface LinkCardProps {
-//     link: Link
-//     onEdit: (link: Link) => void
-//     onDelete: (id: string) => void
-//     onToggle: (id: string, isActive: boolean) => void
-// }
 
 export function LinkCard({ link, onEdit, onDelete, onToggle }) {
     const {
@@ -57,7 +51,7 @@ export function LinkCard({ link, onEdit, onDelete, onToggle }) {
 
                 <div className="flex items-center gap-4">
                     <Switch
-                        isSelected={link.isActive}
+                        isSelected={link.isVisible}
                         onValueChange={(isActive) => onToggle(link.id, isActive)}
                     />
 

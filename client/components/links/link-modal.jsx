@@ -10,15 +10,7 @@ import {
 } from "@nextui-org/modal"
 import { Input } from "@nextui-org/input"
 import { Button } from "@nextui-org/button"
-// import { LinkFormData } from "@/types/link"
 
-// interface LinkModalProps {
-//     isOpen: boolean
-//     onClose: () => void
-//     onSave: (data: LinkFormData) => void
-//     initialData?: LinkFormData
-//     title?: string
-// }
 
 export function LinkModal({
     isOpen,

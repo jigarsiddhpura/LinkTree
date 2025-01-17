@@ -37,7 +37,7 @@ export default function ProfileSetup({ params }) {
         try {
             setIsLoading(true)
             const userId = localStorage.getItem("userId");
-            const response = await fetch('http://localhost:8080/api/profile/05ef3392-add0-4f12-8b68-ce98d408134c/create', {
+            const response = await fetch(`http://localhost:8080/api/${userId}/profile/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

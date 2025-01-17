@@ -1,38 +1,44 @@
 "use client"
 
-import { Card, CardBody, CardFooter } from "@nextui-org/card"
+import { useState } from "react"
 import { Button } from "@nextui-org/button"
+import { Card, CardBody, CardFooter } from "@nextui-org/card"
 import { Avatar } from "@nextui-org/avatar"
+import { Chip } from "@nextui-org/chip"
+import { ChevronDown } from 'lucide-react'
+import { SwitchProfilesModal } from "./modals/switch-profiles-modal"
 
-export function PromoCard() {
+export function PromoCard({ userId, currentProfile, onProfileChange }) {
+    const [isSwitchModalOpen, setIsSwitchModalOpen] = useState(false)
+
     return (
-        <div className="flex items-center gap-2">
-            <Avatar
-                size="sm"
-                name="laughingzoro"
-                src="https://ugc.production.linktr.ee/bb3de458-6172-49a8-9e25-067bf171ba6b_untitled.webp?io=true&size=avatar"
-            />
-            <span className="text-sm">@laughingzoro</span>
-        </div>
-        // <Card className="max-w-sm">
-        //     <CardBody className="gap-4">
-        //         <div>
-        //             <p className="text-lg font-semibold">Save 25% this New Year! 🎉</p>
-        //             <p className="text-sm text-gray-600">
-        //                 Level up your Linktree today and save 25% on a year of Linktree Pro.
-        //             </p>
-        //         </div>
-        //         <p className="text-sm text-gray-500">
-        //             Offer ends in 16 days.
-        //         </p>
-        //         <Button
-        //             className="bg-purple-600 text-white w-full"
-        //         >
-        //             Try Pro now
-        //         </Button>
-        //     </CardBody>
+        <>
+            <Button
+                variant="light"
+                className="w-full relative right-4 rounded-full py-6 px-4 border-2 border-slate-500"
+                endContent={<ChevronDown className="w-4 h-4" />}
+                onPress={() => setIsSwitchModalOpen(true)}
+            >
+                <div className="flex items-center gap-2">
+                    <Avatar
+                        name={currentProfile.username[0].toUpperCase()}
+                        src={currentProfile.profileImage}
+                        className="w-8 h-8"
+                    />
+                    <span className="text-sm">@{currentProfile.username}</span>
+                    {/* <Chip size="sm" variant="flat" color="default">
+                        Free
+                    </Chip> */}
+                </div>
+            </Button>
 
-        // </Card>
+            <SwitchProfilesModal
+                isOpen={isSwitchModalOpen}
+                onClose={() => setIsSwitchModalOpen(false)}
+                userId={userId}
+                onProfileSelect={onProfileChange}
+            />
+        </>
     )
 }
 

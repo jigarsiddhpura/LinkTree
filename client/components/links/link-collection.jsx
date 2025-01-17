@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
     DndContext,
     closestCenter,
@@ -16,13 +16,31 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
-// import { Link, LinkFormData } from "@/types/link"
+
 import { LinkCard } from "./link-card"
 import { LinkModal } from "./link-modal"
 import { Button } from "@nextui-org/button"
 import { Plus } from 'lucide-react'
 
-export function LinkCollection() {
+export function LinkCollection({currentProfileId}) {
+
+    useEffect(() => {
+        if (!currentProfileId) return
+        const fetchLinks = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/profile/${currentProfileId}/links`)
+                if (!response.ok) throw new Error('Failed to fetch links')
+                const links = await response.json()
+                setLinks(links);
+                
+            } catch (error) {
+                console.error('Error fetching links:', error)
+            }
+        }
+
+        fetchLinks()
+    }, [currentProfileId])
+
     const [links, setLinks] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingLink, setEditingLink] = useState(null)
