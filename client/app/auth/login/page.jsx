@@ -89,16 +89,34 @@ export default function LoginPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('http://localhost:8080/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
                 credentials: 'include'
             });
 
-            if (response.ok) {
-                router.push('/');
+            if (!response.ok) {
+                throw new Error('Login failed');
             }
+
+            const userData = await response.json();
+            localStorage.setItem('userId', userData.id);
+
+            // router.push('/');
+            const profileCount = await fetch('http://localhost:8080/api/auth/profile/count', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({"userId": userData}),
+                credentials: 'include'
+            });
+
+            if (profileCount > 0) {
+                router.push("/admin")
+            } else {
+                router.push("/new-profile");
+            }
+
         } catch (error) {
             console.error('Login failed:', error);
         }

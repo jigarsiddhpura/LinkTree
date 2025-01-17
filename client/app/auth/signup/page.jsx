@@ -89,16 +89,24 @@ export default function SignupPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('/api/auth/signin', {
+            const response = await fetch('http://localhost:8080/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
                 credentials: 'include'
             });
 
-            if (response.ok) {
-                router.push('/');
+            if (!response.ok) {
+                throw new Error('Signup failed');
             }
+
+            const userData = await response.json();
+            
+            // Store userId in localStorage (or you could use a state management solution)
+            localStorage.setItem('userId', userData.id);
+
+            // Redirect to login page after successful signup
+            router.push('/auth/login');
         } catch (error) {
             console.error('Signup failed:', error);
         }

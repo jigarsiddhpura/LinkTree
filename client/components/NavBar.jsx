@@ -14,6 +14,7 @@ import {
     DropdownMenu,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 // import { FaFire, FaProjectDiagram, FaPaperPlane, FaRobot, FaChartBar } from 'react-icons/fa';
 
 export const ChevronDown = ({ fill, size, height, width, ...props }) => {
@@ -39,6 +40,7 @@ export const ChevronDown = ({ fill, size, height, width, ...props }) => {
 };
 
 export default function NavBar() {
+    const router = useRouter();
     const icons = {
         chevron: <ChevronDown fill="currentColor" size={16} />
     };
@@ -156,13 +158,17 @@ export default function NavBar() {
 
                 <NavbarContent justify="end" className="relative left-20">
                     <NavbarItem>
-                        <Button radius="sm" variant="ghost" className="bg-slate-100 py-6 px-2">
+                        <Button radius="sm" variant="ghost" className="bg-slate-100 py-6 px-2"
+                        onPress={() => router.push("/auth/login")}
+                        >
                             Log in
                         </Button>
                     </NavbarItem>
 
                     <NavbarItem>
-                        <Button radius="sm" variant="solid" className="bg-black hover:bg-slate-800 text-white rounded-3xl px-4 py-6">Sign up free</Button>
+                        <Button radius="sm" variant="solid" className="bg-black hover:bg-slate-800 text-white rounded-3xl px-4 py-6"
+                        onPress={() => router.push("/auth/signup")}
+                        >Sign up free</Button>
                     </NavbarItem>
                 </NavbarContent>
 
