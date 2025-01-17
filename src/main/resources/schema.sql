@@ -32,10 +32,9 @@ CREATE TABLE IF NOT EXISTS links (
     profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
     url VARCHAR(512) NOT NULL,
-    icon VARCHAR(50),
+    thumbnail VARCHAR(50),
     position INTEGER NOT NULL,
     is_visible BOOLEAN DEFAULT TRUE,
-    custom_styles JSONB DEFAULT '{}',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

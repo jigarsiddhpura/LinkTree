@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/links")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LinkController {
 
     @Autowired
@@ -24,41 +24,16 @@ public class LinkController {
     @Autowired
     private ProfileService profileService;
 
-    @PostMapping("/{profileId}")
-    public ResponseEntity<LinkResponseDTO> createLink(
-            @PathVariable UUID profileId, 
-            @RequestBody LinkRequestDTO requestDTO) {
-        
-        Profile profile = profileService.getProfileById(profileId);
-        Link newLink = Link.builder()
-                .title(requestDTO.getTitle())
-                .url(requestDTO.getUrl())
-                .icon(requestDTO.getIcon())
-                .position(requestDTO.getPosition())
-                .isVisible(requestDTO.getIsVisible())
-                .customStyles(requestDTO.getCustomStyles())
-                .build();
-
-        Link saved = linkService.createLink(profile, newLink);
-        return ResponseEntity.ok(new LinkResponseDTO(saved));
+    @PostMapping
+    public ResponseEntity<LinkResponseDTO> createLink(@RequestBody LinkRequestDTO dto) {
+        LinkResponseDTO response = linkService.createLink(dto);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{linkId}")
-    public ResponseEntity<LinkResponseDTO> updateLink(
-            @PathVariable UUID linkId, 
-            @RequestBody LinkRequestDTO requestDTO) {
-        
-        Link updated = linkService.updateLink(linkId,
-                Link.builder()
-                        .title(requestDTO.getTitle())
-                        .url(requestDTO.getUrl())
-                        .icon(requestDTO.getIcon())
-                        .position(requestDTO.getPosition())
-                        .isVisible(requestDTO.getIsVisible())
-                        .customStyles(requestDTO.getCustomStyles())
-                        .build());
-
-        return ResponseEntity.ok(new LinkResponseDTO(updated));
+    public ResponseEntity<LinkResponseDTO> updateLink(@PathVariable UUID linkId, @RequestBody LinkRequestDTO dto) {
+        LinkResponseDTO response = linkService.updateLink(linkId, dto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{linkId}")
@@ -67,13 +42,8 @@ public class LinkController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/profile/{profileId}")
-    public ResponseEntity<List<LinkResponseDTO>> getLinksByProfile(@PathVariable UUID profileId) {
-        Profile profile = profileService.getProfileById(profileId);
-        List<Link> links = linkService.getLinksByProfile(profile);
-        List<LinkResponseDTO> responseDTOs = links.stream()
-                .map(LinkResponseDTO::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(responseDTOs);
-    }
+    // @PatchMapping("/{id}")
+    // public ResponseEntity<LinkResponseDTO> updateLink(@PathVariable UUID id, @RequestBody LinkRequestDTO dto) {
+    //     return ResponseEntity.ok(linkService.updateLink(id, dto));
+    // }
 }

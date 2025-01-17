@@ -35,8 +35,6 @@ public class Link {
 
     @Column(nullable = false, length = 512)
     private String url;
-
-    private String icon;
     
     /**
      * This field helps us store and maintain the ordering (position) of links
@@ -47,8 +45,8 @@ public class Link {
 
     private Boolean isVisible = true;
 
-    @Column(columnDefinition = "jsonb")
-    private String customStyles = "{}";
+    @Column(nullable = false, length = 512)
+    private String thumbnail;
 
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();

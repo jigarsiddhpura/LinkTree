@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,7 @@ public class ProfileService {
         profile.setUser(user);
         profile.setUsername(requestDTO.getUsername());
         profile.setBio(requestDTO.getBio());
+        profile.setTitle(requestDTO.getTitle());
         profile.setProfileImage(requestDTO.getProfileImage());
         profile.setIsPublished(false);
         profile.setCreatedAt(LocalDateTime.now());
@@ -59,5 +61,15 @@ public class ProfileService {
 
     public int profileCount(UUID userId) {
         return profileRepository.profileCountbyUserId(userId);
+    }
+
+    // The ::new syntax is called a method reference, specifically a constructor reference in this case. It's a shorthand way to refer to a constructor.
+    // .map(ProfileResponseDTO::new) is equivalent to .map(profile -> new ProfileResponseDTO(profile)) 
+
+    public List<ProfileResponseDTO> getAllProfilesForUser(UUID userId) {
+        List<Profile> profiles = profileRepository.findByUserId(userId);
+        return profiles.stream()
+                    .map(ProfileResponseDTO::new)
+                    .toList();
     }
 }
