@@ -8,8 +8,8 @@ import java.util.UUID;
 @Data
 public class ProfileRequestDTO {
     private String username;
+    private String title;
     private String bio;
-    private String themeSettings;
-    private String seoSettings;
-    private Boolean isPublished;
+    private String profileImage;
+    // private Boolean isPublished;
 }

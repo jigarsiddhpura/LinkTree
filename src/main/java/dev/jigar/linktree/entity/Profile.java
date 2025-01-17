@@ -34,13 +34,14 @@ public class Profile {
     private String username;
 
     @Column(length = 255)
+    private String title;
+
+    @Column(length = 255)
     private String bio;
 
-    @Column(columnDefinition = "jsonb")
-    private String themeSettings = "{}";
+    @Column(length = 255)
+    private String profileImage;
 
-    @Column(columnDefinition = "jsonb")
-    private String seoSettings = "{}";
 
     private Boolean isPublished = false;
 

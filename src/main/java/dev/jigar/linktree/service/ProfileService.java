@@ -30,9 +30,8 @@ public class ProfileService {
         profile.setUser(user);
         profile.setUsername(requestDTO.getUsername());
         profile.setBio(requestDTO.getBio());
-        profile.setThemeSettings(requestDTO.getThemeSettings());
-        profile.setSeoSettings(requestDTO.getSeoSettings());
-        profile.setIsPublished(requestDTO.getIsPublished());
+        profile.setProfileImage(requestDTO.getProfileImage());
+        profile.setIsPublished(false);
         profile.setCreatedAt(LocalDateTime.now());
         profile.setUpdatedAt(LocalDateTime.now());
 
@@ -50,9 +49,8 @@ public class ProfileService {
 
         existing.setUsername(requestDTO.getUsername());
         existing.setBio(requestDTO.getBio());
-        existing.setThemeSettings(requestDTO.getThemeSettings());
-        existing.setSeoSettings(requestDTO.getSeoSettings());
-        existing.setIsPublished(requestDTO.getIsPublished());
+        existing.setProfileImage(requestDTO.getProfileImage());
+        existing.setIsPublished(false);
         existing.setUpdatedAt(LocalDateTime.now());
 
         Profile saved = profileRepository.save(existing);

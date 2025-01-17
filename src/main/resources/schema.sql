@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     username VARCHAR(100) NOT NULL UNIQUE,
+    title VARCHAR(255),
     bio VARCHAR(255),
-    theme_settings JSONB DEFAULT '{}',
-    seo_settings JSONB DEFAULT '{}',
+    profile_image VARCHAR(255),
     is_published BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
