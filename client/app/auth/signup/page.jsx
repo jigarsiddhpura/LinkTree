@@ -91,9 +91,9 @@ export default function SignupPage() {
         try {
             const response = await fetch('http://localhost:8080/api/auth/signup', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                // headers: { 'Content-Type': 'application/json' , 'Accept': 'application/json'},
                 body: JSON.stringify(data),
-                credentials: 'include'
+                credentials: 'include',
             });
 
             if (!response.ok) {

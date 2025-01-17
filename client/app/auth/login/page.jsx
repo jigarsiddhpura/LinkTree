@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -89,32 +90,27 @@ export default function LoginPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:8080/api/auth/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-                credentials: 'include'
-            });
+            // Login request
+            const response = await axios.post('http://localhost:8080/api/auth/login', 
+            data,
+            {withCredentials: true}
+            );
 
-            if (!response.ok) {
-                throw new Error('Login failed');
-            }
-
-            const userData = await response.json();
+            const userData = response.data;
             localStorage.setItem('userId', userData.id);
 
-            // router.push('/');
-            const profileCount = await fetch('http://localhost:8080/api/auth/profile/count', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({"userId": userData}),
-                credentials: 'include'
-            });
+            // Profile count request
+            const profileCount = await axios.get(`http://localhost:8080/api/profile/${userData.id}/count`, 
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
 
-            if (profileCount > 0) {
-                router.push("/admin")
+            // Navigate based on profile count
+            if (profileCount.data > 0) {
+                router.push("/admin");
             } else {
-                router.push("/new-profile");
+                router.push("/new-profile/your-username");
             }
 
         } catch (error) {
