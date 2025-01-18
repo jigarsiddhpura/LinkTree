@@ -8,6 +8,7 @@ import { Avatar } from "@nextui-org/avatar"
 import { useRouter } from "next/navigation"
 import { Plus } from 'lucide-react'
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 // interface ProfileData {
 //     username: string
@@ -24,6 +25,8 @@ const sampleAvatars = [
 
 export default function ProfileSetup({ params }) {
     const router = useRouter()
+    const searchParams = useSearchParams()
+
     const [selectedAvatar, setSelectedAvatar] = useState(null)
     const [formData, setFormData] = useState({
         username: params.username,
@@ -32,6 +35,7 @@ export default function ProfileSetup({ params }) {
         profileImage: ""
     })
     const [isLoading, setIsLoading] = useState(false)
+
 
     const handleSubmit = async () => {
         try {
@@ -43,7 +47,7 @@ export default function ProfileSetup({ params }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: formData.username,
+                    username: searchParams.get('username'),
                     title: formData.title,
                     bio: formData.bio,
                     profileImage: formData.profileImage || sampleAvatars[selectedAvatar || 0]?.url

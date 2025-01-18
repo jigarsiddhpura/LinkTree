@@ -1,18 +1,71 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@nextui-org/button"
 import { Input } from "@nextui-org/input"
 import { ArrowLeft } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 
 export default function ChooseUsername() {
+    const router = useRouter()
+    const [username, setUsername] = useState("")
+    const [isUnique, setIsUnique] = useState(true)
+    const [isChecking, setIsChecking] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+
+    // Debounced username check
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (username) {
+                checkUsername(username)
+            }
+        }, 500)
+
+        return () => clearTimeout(timeoutId)
+    }, [username])
+
+    const checkUsername = async (value) => {
+        setIsChecking(true)
+        try {
+            const response = await fetch(`http://localhost:8080/api/profile/check-username/${value}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            )
+
+            const isUnique = await response.json()
+            setIsUnique(isUnique)
+            setErrorMessage(isUnique ? "" : "This username is already taken")
+        } catch (error) {
+            setErrorMessage("Error checking username availability")
+            setIsUnique(false)
+        } finally {
+            setIsChecking(false)
+        }
+    }
+
+    const handleSubmit = async () => {
+        if (!username || !isUnique) return
+        
+        try {
+            // const encodedUsername = encodedURIComponent(username);
+            // alert(encodedUsername)
+            router.push(`/new-profile/title-image-bio?username=${username}`)
+
+        } catch (error) {
+            setErrorMessage("Error creating profile")
+        }
+    }
+
     return (
         <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-            {/* Left Column */}
             <div className="p-6 lg:p-12">
                 <div className="max-w-md mx-auto">
-                    {/* Logo */}
                     <div className="mb-8">
                         <Link href="/" className="inline-flex items-center">
                             <span className="text-2xl font-bold">Linktree</span>
@@ -20,7 +73,6 @@ export default function ChooseUsername() {
                         </Link>
                     </div>
 
-                    {/* Back Link */}
                     <Link
                         href="/admin"
                         className="inline-flex items-center text-purple-600 mb-12 hover:underline"
@@ -29,7 +81,6 @@ export default function ChooseUsername() {
                         Back to admin
                     </Link>
 
-                    {/* Main Content */}
                     <div className="space-y-4">
                         <h1 className="text-4xl font-bold">
                             Choose a username
@@ -38,33 +89,40 @@ export default function ChooseUsername() {
                             Choose a Linktree URL for your new Linktree. You can always change it later.
                         </p>
 
-                        {/* Username Input */}
                         <div className="mt-8">
                             <Input
                                 label=""
                                 placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                                 labelPlacement="outside"
                                 startContent={
                                     <div className="pointer-events-none flex items-center">
                                         <span className="text-default-400 text-small">linktr.ee/</span>
                                     </div>
                                 }
+                                isInvalid={!isUnique}
+                                errorMessage={errorMessage}
                                 className="max-w-md"
                             />
                         </div>
 
-                        {/* Continue Button */}
                         <Button
-                            className="w-full bg-[#EBEADD] text-gray-400 mt-4"
+                            className={`w-full mt-4 ${isUnique && username
+                                    ? 'bg-[#DDDCCF] hover:bg-[#CFCEC1]'
+                                    : 'bg-[#EBEADD]'
+                                } text-gray-700`}
                             size="lg"
                             radius="full"
+                            onPress={handleSubmit}
+                            isDisabled={!isUnique || !username}
+                            isLoading={isChecking}
                         >
                             Continue
                         </Button>
                     </div>
                 </div>
 
-                {/* Cookie Preferences */}
                 <div className="absolute bottom-6 left-6">
                     <Button
                         variant="light"
@@ -75,7 +133,6 @@ export default function ChooseUsername() {
                 </div>
             </div>
 
-            {/* Right Column - Image */}
             <div className="hidden lg:block relative bg-[#E6B32A]">
                 <Image
                     src="/signup-grid-image.png"
@@ -88,4 +145,3 @@ export default function ChooseUsername() {
         </div>
     )
 }
-

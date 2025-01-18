@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const signupschema = z.object({
     email: z.string().email("Invalid email address"),
@@ -89,24 +90,24 @@ export default function SignupPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:8080/api/auth/signup', {
-                method: 'POST',
-                // headers: { 'Content-Type': 'application/json' , 'Accept': 'application/json'},
-                body: JSON.stringify(data),
-                credentials: 'include',
-            });
+            const response = await axios.post('http://localhost:8080/api/auth/signup',
+                data,
+                { withCredentials: true }
+            );
 
-            if (!response.ok) {
-                throw new Error('Signup failed');
-            }
+            console.log('Signup response:', response.data);
 
-            const userData = await response.json();
+            // if (!response.ok) {
+            //     throw new Error('Signup failed');
+            // }
+
+            const userData = await response.data;
             
             // Store userId in localStorage (or you could use a state management solution)
             localStorage.setItem('userId', userData.id);
 
             // Redirect to login page after successful signup
-            router.push('/auth/login');
+            router.push('/new-profile/your-username');
         } catch (error) {
             console.error('Signup failed:', error);
         }
