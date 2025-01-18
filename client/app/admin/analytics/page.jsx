@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react"
 import { DateRangeSelector } from "@/components/analytics/date-range-selector"
 import { AnalyticsChart } from "@/components/analytics/analytics-chart"
+import { Sidebar } from "@/components/layout/sidebar"
 // import { DateRange, AnalyticsDataPoint } from "@/types/analytics"
 import { subDays } from "date-fns"
-import { Sidebar } from "@/components/layout/sidebar"
 
 export default function AnalyticsPage() {
     const [dateRange, setDateRange] = useState({
@@ -19,7 +19,8 @@ export default function AnalyticsPage() {
         const fetchAnalytics = async () => {
             setIsLoading(true)
             try {
-                const response = await fetch(`/api/analytics?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
+                alert("start = "+dateRange.start.toISOString()+", end = "+dateRange.end.toISOString())
+                const response = await fetch(`http://localhost:8080/api/analytics/profile/637e6c2b-8322-4605-9801-2d33011cc58e/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
                 if (!response.ok) throw new Error('Failed to fetch analytics')
                 const data = await response.json()
                 setData(data)
