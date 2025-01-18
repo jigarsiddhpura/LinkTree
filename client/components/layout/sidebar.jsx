@@ -10,7 +10,7 @@ const menuItems = [
     { name: "Shop", icon: ShoppingBag, href: "/shop" },
     { name: "Appearance", icon: Palette, href: "/appearance" },
     { name: "Social Planner", icon: Calendar, href: "/planner" },
-    { name: "Analytics", icon: BarChart2, href: "/analytics" },
+    { name: "Analytics", icon: BarChart2, href: "/admin/analytics" },
     { name: "Settings", icon: Settings, href: "/settings" }
 ]
 
