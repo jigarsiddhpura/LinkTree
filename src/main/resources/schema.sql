@@ -1,6 +1,9 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+drop table IF EXISTS analytics cascade;
+drop table IF EXISTS link_analytics cascade;
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -41,20 +44,23 @@ CREATE TABLE IF NOT EXISTS links (
 
 -- Analytics table
 CREATE TABLE IF NOT EXISTS analytics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID DEFAULT uuid_generate_v4(),
     profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    recorded_date DATE NOT NULL DEFAULT CURRENT_DATE,
     views_count INTEGER DEFAULT 0,
     unique_visitors INTEGER DEFAULT 0,
-    recorded_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    CONSTRAINT positive_counts CHECK (views_count >= 0 AND unique_visitors >= 0)
-);
+    CONSTRAINT positive_counts CHECK (views_count >= 0 AND unique_visitors >= 0),
+    PRIMARY KEY (id, profile_id, recorded_date)
+) PARTITION BY RANGE (recorded_date);
 
 -- Link analytics table
 CREATE TABLE IF NOT EXISTS link_analytics (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     link_id UUID NOT NULL REFERENCES links(id) ON DELETE CASCADE,
+    profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     clicks_count INTEGER DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    unique_click INTEGER DEFAULT 0,
+    created_at DATE DEFAULT CURRENT_DATE,
     CONSTRAINT positive_clicks CHECK (clicks_count >= 0)
 );
 

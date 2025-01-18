@@ -85,4 +85,10 @@ public class ProfileController {
         return ResponseEntity.ok("Link order updated successfully");
     }
 
+    @PostMapping("/profile/check-username/{username}")
+    public ResponseEntity<Boolean> checkUsername(@PathVariable String username) {
+        boolean isUnique = profileService.isUsernameUnique(username);
+        return ResponseEntity.ok(isUnique);
+    }
+
 }

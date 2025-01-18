@@ -113,6 +113,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>linktree-backend</finalName>
 	</build>
+
+
 
 </project>

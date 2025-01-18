@@ -72,4 +72,8 @@ public class ProfileService {
                     .map(ProfileResponseDTO::new)
                     .toList();
     }
+
+    public boolean isUsernameUnique(String username) {
+        return profileRepository.findByUsername(username) == null;
+    }
 }

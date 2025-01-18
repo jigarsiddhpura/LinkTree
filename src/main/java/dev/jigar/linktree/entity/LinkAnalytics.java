@@ -2,6 +2,7 @@ package dev.jigar.linktree.entity;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,11 +27,18 @@ public class LinkAnalytics {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "link_id", nullable = false)
-    private Link link;
+    @Column(name = "link_id", nullable = false)
+    private UUID linkId;
 
+    @Column(name = "profile_id", nullable = false)
+    private UUID profileId;
+    
+    @Column(name = "clicks_count")
     private Integer clicksCount = 0;
     
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "unique_click")
+    private Integer uniqueClick = 0;
+    
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 }

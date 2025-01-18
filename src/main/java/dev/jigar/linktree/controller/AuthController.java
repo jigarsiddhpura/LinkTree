@@ -4,6 +4,8 @@ import dev.jigar.linktree.dto.AuthRequestDTO;
 import dev.jigar.linktree.dto.AuthResponseDTO;
 import dev.jigar.linktree.entity.User;
 import dev.jigar.linktree.service.AuthService;
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Transactional
     @PostMapping("/signup")
     public ResponseEntity<AuthResponseDTO> signup(@RequestBody AuthRequestDTO requestDTO) {
         User user = null;
@@ -42,7 +45,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO requestDTO) {
-        User user = authService.login(requestDTO);
+        User user = null;
+        try {
+            user = authService.login(requestDTO);
+        } catch (Exception e) {
+            logger.error("Error during login: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(AuthResponseDTO.builder()
                                 .id(user.getId())
                                 .email(user.getEmail())

@@ -4,14 +4,12 @@ import lombok.*;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import java.time.LocalDate;
 import java.util.UUID;
+
 
 @Entity
 @Table(name = "analytics")
@@ -24,14 +22,17 @@ public class Analytics {
     @Id
     @GeneratedValue(generator = "uuid2")
     private UUID id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id", nullable = false)
-    private Profile profile;
-
+    
+    @Column(name = "profile_id", nullable = false)
+    private UUID profileId;
+    
+    @Column(name = "recorded_date", nullable = false)
+    private LocalDate recordedDate;
+    
+    @Column(name = "views_count")
     private Integer viewsCount = 0;
+    
+    @Column(name = "unique_visitors")
     private Integer uniqueVisitors = 0;
 
-    @Column(nullable = false)
-    private java.sql.Date recordedDate;
 }
