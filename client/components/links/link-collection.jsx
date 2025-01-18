@@ -21,9 +21,7 @@ import { LinkModal } from "./link-modal"
 import { Button } from "@nextui-org/button"
 import { Plus } from 'lucide-react'
 
-export function LinkCollection({ currentProfileId }) {
-    const [links, setLinks] = useState([])
-    const [linkOrder, setLinkOrder] = useState([])
+export function LinkCollection({ currentProfileId, links, onLinkChange, linkOrder, onLinkOrderChange }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingLink, setEditingLink] = useState(null)
 
@@ -33,23 +31,6 @@ export function LinkCollection({ currentProfileId }) {
             coordinateGetter: sortableKeyboardCoordinates,
         })
     )
-
-    useEffect(() => {
-        if (!currentProfileId) return
-        const fetchLinks = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/profile/${currentProfileId}/links`)
-                if (!response.ok) throw new Error('Failed to fetch links')
-                const fetchedLinks = await response.json()
-                setLinks(fetchedLinks)
-                setLinkOrder(fetchedLinks.map((link) => link.id))
-            } catch (error) {
-                console.error('Error fetching links:', error)
-            }
-        }
-
-        fetchLinks()
-    }, [currentProfileId])
 
     useEffect(() => {
         const updateOrder = async () => {
@@ -82,11 +63,11 @@ export function LinkCollection({ currentProfileId }) {
         const { active, over } = event
 
         if (over && active.id !== over.id) {
-            setLinks((items) => {
+            onLinkChange((items) => {
                 const oldIndex = items.findIndex((i) => i.id === active.id)
                 const newIndex = items.findIndex((i) => i.id === over.id)
                 const newItems = arrayMove(items, oldIndex, newIndex)
-                setLinkOrder(newItems.map(item => item.id))
+                onLinkOrderChange(newItems.map(item => item.id))
                 return newItems
             })
         }
@@ -105,7 +86,7 @@ export function LinkCollection({ currentProfileId }) {
 
             if (!response.ok) throw new Error('Failed to update link')
 
-            setLinks(links.map(link =>
+            onLinkChange(links.map(link =>
                 link.id === id ? { ...link, ...updates } : link
             ))
         } catch (error) {
@@ -130,8 +111,8 @@ export function LinkCollection({ currentProfileId }) {
             if (!response.ok) throw new Error('Failed to createlink')
             const createdLink = await response.json()
 
-            setLinks(prevLinks => [...prevLinks, createdLink])
-            setLinkOrder(prevOrder => [...prevOrder, createdLink.id])
+            onLinkChange(prevLinks => [...prevLinks, createdLink])
+            onLinkOrderChange(prevOrder => [...prevOrder, createdLink.id])
         } catch (error) {
             console.error('Error creating link:', error)
         }
@@ -143,8 +124,8 @@ export function LinkCollection({ currentProfileId }) {
             await fetch(`http://localhost:8080/api/links/${id}`, {
                 method: 'DELETE',
             })
-            setLinks(links.filter(link => link.id !== id))
-            setLinkOrder(linkOrder.filter(linkId => linkId !== id))
+            onLinkChange(links.filter(link => link.id !== id))
+            onLinkOrderChange(linkOrder.filter(linkId => linkId !== id))
         } catch (error) {
             console.error('Error deleting link:', error)
         }

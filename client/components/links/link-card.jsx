@@ -62,7 +62,7 @@ export function LinkCard({ link, currentProfileId, onEdit, onDelete, onToggle })
             className="mb-4"
         >
             <CardBody className="p-4">
-                <div className="grid grid-cols-[auto,1fr,auto] gap-4 items-center">
+                <div className="grid grid-cols-[auto,1fr,auto] gap-4  items-center">
                     {/* Drag Handle */}
                     <div
                         {...attributes}
@@ -73,8 +73,8 @@ export function LinkCard({ link, currentProfileId, onEdit, onDelete, onToggle })
                     </div>
 
                     {/* Main Content */}
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2">
+                    <div className="">
+                        <div className="flex items-center gap-4">
                             {isEditingTitle ? (
                                 <div className="flex items-center gap-2">
                                     <Input
@@ -90,7 +90,7 @@ export function LinkCard({ link, currentProfileId, onEdit, onDelete, onToggle })
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2">
-                                    <span className="font-medium">{title}</span>
+                                    <span className="font-bold">{title}</span>
                                     <Button
                                         isIconOnly
                                         variant="light"
@@ -146,7 +146,7 @@ export function LinkCard({ link, currentProfileId, onEdit, onDelete, onToggle })
                                 </Button>
                             ))}
                             <span className="text-sm text-gray-500 ml-2">
-                                {link.clicks} clicks
+                                0 clicks
                             </span>
                         </div>
                     </div>

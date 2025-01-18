@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@nextui-org/button"
-import { MoreHorizontal, Plus } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
 import { ProfileInfo } from "@/components/profile/profile-info"
@@ -13,6 +13,11 @@ import { PromoCard } from "@/components/promo-card"
 export default function Home() {
     const [userId, setUserId] = useState(null);
     const [currentProfile, setCurrentProfile] = useState(null)
+    const [links, setLinks] = useState([])
+    const [linkOrder, setLinkOrder] = useState([])
+    const [previewSettings, setPreviewSettings] = useState({
+        useGradientBackground: false
+    })
 
     useEffect(() => {
         setUserId(localStorage.getItem("userId"))
@@ -36,7 +41,50 @@ export default function Home() {
         fetchDefaultProfile()
     }, [userId])
 
+    useEffect(() => {
+        if (!currentProfile) return
+        const fetchLinks = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/profile/${currentProfile.id}/links`)
+                if (!response.ok) throw new Error('Failed to fetch links')
+                const fetchedLinks = await response.json()
+                setLinks(fetchedLinks)
+                setLinkOrder(fetchedLinks.map((link) => link.id))
+            } catch (error) {
+                console.error('Error fetching links:', error)
+            }
+        }
+
+        fetchLinks()
+    }, [currentProfile])
+
     if (!userId || !currentProfile) return null
+
+    // Example profile data - replace with your actual data
+    const profile = {
+        username: "amazon_sambhav_deployments",
+        bio: "Add bio",
+        links: [
+            {
+                id: "1",
+                title: "High Level Design and Architecture - Tech Titans",
+                url: "https://youtu.be/kZbCXOpbeVQ",
+                thumbnail: "/thumbnails/architecture.jpg",
+                isVisible: true,
+                clicks: 6,
+                position: 0
+            },
+            {
+                id: "2",
+                title: "ML Workflow - Amazon Sambhav Submission",
+                url: "https://youtu.be/OqFjspgDMgg",
+                thumbnail: "/thumbnails/ml-workflow.jpg",
+                isVisible: true,
+                clicks: 3,
+                position: 1
+            }
+        ]
+    }
 
     return (
         <div className="flex min-h-screen">
@@ -47,7 +95,7 @@ export default function Home() {
                     <Header />
 
                     <div className="flex items-start justify-between mb-8">
-                        <ProfileInfo currentProfile={currentProfile}/>
+                        <ProfileInfo currentProfile={currentProfile} />
                         <Button
                             isIconOnly
                             variant="light"
@@ -57,7 +105,13 @@ export default function Home() {
                         </Button>
                     </div>
 
-                    <LinkCollection currentProfileId={currentProfile.id}/>
+                    <LinkCollection
+                        currentProfileId={currentProfile.id}
+                        links={links}
+                        onLinkChange={setLinks}
+                        linkOrder={linkOrder}
+                        onLinkOrderChange={setLinkOrder}
+                    />
                 </div>
 
                 <div className="fixed bottom-8 left-8">
@@ -70,7 +124,13 @@ export default function Home() {
             </main>
 
             <aside className="w-[400px] p-8 flex items-center justify-center">
-                <MobilePreview links={[]} />
+                <MobilePreview
+                    links={links}
+                    username={currentProfile.username}
+                    bio={currentProfile.bio}
+                    settings={previewSettings}
+                    onSettingsChange={setPreviewSettings}
+                />
             </aside>
         </div>
     )
