@@ -41,7 +41,7 @@ export default function ProfileSetup({ params }) {
         try {
             setIsLoading(true)
             const userId = localStorage.getItem("userId");
-            const response = await fetch(`http://localhost:8080/api/${userId}/profile/create`, {
+            const response = await fetch(`https://api.inflow.chat/api/${userId}/profile/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

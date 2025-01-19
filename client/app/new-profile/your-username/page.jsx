@@ -29,7 +29,7 @@ export default function ChooseUsername() {
     const checkUsername = async (value) => {
         setIsChecking(true)
         try {
-            const response = await fetch(`http://localhost:8080/api/profile/check-username/${value}`,
+            const response = await fetch(`https://api.inflow.chat/api/profile/check-username/${value}`,
                 {
                     method: 'POST',
                     headers: {
