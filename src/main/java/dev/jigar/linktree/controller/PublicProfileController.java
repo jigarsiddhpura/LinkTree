@@ -17,7 +17,6 @@ import dev.jigar.linktree.service.ProfileService;
 
 @RestController
 @RequestMapping
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class PublicProfileController {
 
     @Autowired

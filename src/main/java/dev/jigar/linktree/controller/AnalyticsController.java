@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/analytics")
-@CrossOrigin(origins = "*", allowCredentials = "true")
 @Slf4j
 public class AnalyticsController {
 

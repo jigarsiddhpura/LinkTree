@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class ProfileController {
 
     @Autowired

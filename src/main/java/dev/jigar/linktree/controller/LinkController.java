@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/links")
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class LinkController {
 
     @Autowired
