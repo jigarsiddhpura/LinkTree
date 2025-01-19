@@ -22,7 +22,12 @@ export function MobilePreview({
 
     // Generate background style based on settings
     const backgroundStyle = useMemo(() => {
-        if (settings.useGradientBackground && settings.gradientColors) {
+        if (settings.templateColor && !settings.useGradientBackground) {
+            return {
+                background: settings.templateColor
+            }
+        }
+        else if (settings.useGradientBackground && settings.gradientColors) {
             return {
                 background: `linear-gradient(to bottom, ${settings.gradientColors.from}, ${settings.gradientColors.to})`
             }

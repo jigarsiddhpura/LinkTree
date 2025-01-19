@@ -5,6 +5,7 @@ import { Avatar } from "@nextui-org/avatar"
 import { Button } from "@nextui-org/button"
 import { Chip } from "@nextui-org/chip"
 import { useEffect, useState } from "react"
+import {useRouter} from "next/navigation"
 
 // interface SwitchProfilesModalProps {
 //     isOpen: boolean
@@ -19,8 +20,9 @@ export function SwitchProfilesModal({
     userId,
     onProfileSelect
 }) {
-    const [profiles, setProfiles] = useState ([])
+    const [profiles, setProfiles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const router = useRouter();
 
     useEffect(() => {
         const fetchProfiles = async () => {
@@ -53,7 +55,7 @@ export function SwitchProfilesModal({
                     Switch Linktrees
                 </ModalHeader>
                 <ModalBody className="pb-6">
-                    <div className="space-y-2">
+                    <div className="space-y-2 flex flex-col">
                         {profiles.map((profile) => (
                             <Button
                                 key={profile.id}
@@ -84,6 +86,13 @@ export function SwitchProfilesModal({
                                 </div>
                             </Button>
                         ))}
+                        <Button
+                            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg justify-center"
+                            radius="full"
+                            onPress={() => router.push(`/new-profile/your-username`)}
+                        >
+                            Create new Linktree
+                        </Button>
                     </div>
                 </ModalBody>
             </ModalContent>

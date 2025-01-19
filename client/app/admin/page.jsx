@@ -16,7 +16,8 @@ export default function Home() {
     const [links, setLinks] = useState([])
     const [linkOrder, setLinkOrder] = useState([])
     const [previewSettings, setPreviewSettings] = useState({
-        useGradientBackground: false
+        useGradientBackground: false,
+        templateColor: localStorage.getItem("templateColor"),
     })
 
     useEffect(() => {

@@ -55,7 +55,7 @@ export default function ChooseUsername() {
         try {
             // const encodedUsername = encodedURIComponent(username);
             // alert(encodedUsername)
-            router.push(`/new-profile/title-image-bio?username=${username}`)
+            router.push(`/new-profile/select-template?username=${username}`)
 
         } catch (error) {
             setErrorMessage("Error creating profile")
