@@ -17,49 +17,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/analytics")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowCredentials = "true")
 @Slf4j
 public class AnalyticsController {
 
     @Autowired
     private AnalyticsService analyticsService;
-
-    // /**
-    //  * Returns total views for a profile (e.g., summing up all analytics rows).
-    //  */
-    // @GetMapping("/profile/{profileId}/views")
-    // public ResponseEntity<Integer> getTotalViews(@PathVariable UUID profileId) {
-    //     int totalViews = analyticsService.getTotalViews(profileId);
-    //     return ResponseEntity.ok(totalViews);
-    // }
-
-    // /**
-    //  * Returns total unique visitors for a profile.
-    //  */
-    // @GetMapping("/profile/{profileId}/unique-views")
-    // public ResponseEntity<Integer> getTotalUniqueViews(@PathVariable UUID profileId) {
-    //     int uniqueViews = analyticsService.getTotalUniqueViews(profileId);
-    //     return ResponseEntity.ok(uniqueViews);
-    // }
-
-    // /**
-    //  * Returns total clicks for a specific link or across the profile.
-    //  */
-    // @GetMapping("/link/{linkId}/clicks")
-    // public ResponseEntity<Integer> getTotalLinkClicks(@PathVariable UUID linkId) {
-    //     int totalClicks = analyticsService.getTotalLinkClicks(linkId);
-    //     return ResponseEntity.ok(totalClicks);
-    // }
-
-    // /**
-    //  * Returns lifetime (all-time) profile views, possibly the same as getTotalViews 
-    //  * or you can differentiate if you store them in a different manner.
-    //  */
-    // @GetMapping("/profile/{profileId}/lifetime-views")
-    // public ResponseEntity<Integer> getLifetimeViews(@PathVariable UUID profileId) {
-    //     int lifetimeViews = analyticsService.getLifetimeViews(profileId);
-    //     return ResponseEntity.ok(lifetimeViews);
-    // }
 
     // Combined single endpoint for a profile
     @GetMapping("/profile/{profileIdStr}/stats")

@@ -76,4 +76,9 @@ public class ProfileService {
     public boolean isUsernameUnique(String username) {
         return profileRepository.findByUsername(username) == null;
     }
+
+    public UUID getProfileIdByUsername(String username) {
+        Profile profile = profileRepository.findByUsername(username);
+        return profile.getId();
+    }
 }
