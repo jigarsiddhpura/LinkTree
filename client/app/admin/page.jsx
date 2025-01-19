@@ -15,13 +15,16 @@ export default function Home() {
     const [currentProfile, setCurrentProfile] = useState(null)
     const [links, setLinks] = useState([])
     const [linkOrder, setLinkOrder] = useState([])
+    const [templateColor, setTemplateColor] = useState(null)
+    
     const [previewSettings, setPreviewSettings] = useState({
         useGradientBackground: false,
-        templateColor: localStorage.getItem("templateColor"),
+        templateColor: templateColor,
     })
 
     useEffect(() => {
         setUserId(localStorage.getItem("userId"))
+        setTemplateColor(localStorage.getItem("templateColor"))
     }, [])
 
     useEffect(() => {

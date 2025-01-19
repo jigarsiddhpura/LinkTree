@@ -8,14 +8,10 @@ import { templates, templateColorMap } from "@/lib/templates"
 import { TemplateCard } from "@/components/templates/template-card"
 import { Suspense } from 'react'
 
-export default function TemplatesPage() {
+function TemplatesContent() {
     const router = useRouter()
-    // const username = useSearchParams().get('username')
-    function UsernameSelector() {
-        return useSearchParams().get('username')
-    }
-    const username = UsernameSelector();
-
+    const searchParams = useSearchParams()
+    const username = searchParams.get('username')
     const [selectedTemplate, setSelectedTemplate] = useState(null)
 
     const handleTemplateSelect = (template) => {
@@ -24,18 +20,14 @@ export default function TemplatesPage() {
 
     const handleContinue = () => {
         if (selectedTemplate) {
-            // Store the selected template and color in localStorage or state management
             localStorage.setItem('selectedTemplate', selectedTemplate.id)
             localStorage.setItem('templateColor', templateColorMap.get(selectedTemplate.id) || '')
-
-            // Navigate to the next page
             router.push(`/new-profile/title-image-bio?username=${username}`)
         }
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50">
                 {/* Progress and Skip */}
                 <div className="fixed top-0 left-0 right-0 z-50 bg-white">
                     <div className="max-w-7xl mx-auto px-4 py-4 flex items-center">
@@ -97,6 +89,15 @@ export default function TemplatesPage() {
                 )}
 
             </div>
+    )
+
+}
+
+// Main page component with proper Suspense boundary
+export default function TemplatesPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <TemplatesContent />
         </Suspense>
     )
 }

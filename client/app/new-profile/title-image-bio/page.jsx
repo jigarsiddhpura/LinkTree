@@ -5,10 +5,9 @@ import { Button } from "@nextui-org/button"
 import { Input, Textarea } from "@nextui-org/input"
 import { Progress } from "@nextui-org/progress"
 import { Avatar } from "@nextui-org/avatar"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Plus } from 'lucide-react'
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 
 // interface ProfileData {
@@ -24,14 +23,9 @@ const sampleAvatars = [
     { url: "https://ugc.production.linktr.ee/b73b4296-f8da-43e3-89c7-3fd8ddc5bee3_untitled.webp?io=true&size=avatar", color: "bg-green-400" },
 ]
 
-export default function ProfileSetup({ params }) {
+function ProfileContent({ params }) {
     const router = useRouter()
-    // const searchParams = useSearchParams()
-
-    function UsernameSelector() {
-        return useSearchParams().get('username')
-    }
-    const username = UsernameSelector();
+    const username = useSearchParams().get('username')
 
     const [selectedAvatar, setSelectedAvatar] = useState(null)
     const [formData, setFormData] = useState({
@@ -74,109 +68,115 @@ export default function ProfileSetup({ params }) {
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className="min-h-screen grid grid-cols-1 gap-6 p-6">
-                {/* Header */}
-                <header className="flex justify-between items-center">
-                    <Button
-                        as={Link}
-                        href="/new-profile/username"
-                        variant="light"
-                    >
-                        Back
-                    </Button>
-                    <Progress
-                        value={66}
-                        className="max-w-xs"
-                        color="secondary"
-                    />
-                    <Button
-                        as={Link}
-                        href="/dashboard"
-                        variant="light"
-                    >
-                        Skip
-                    </Button>
-                </header>
+        <div className="min-h-screen grid grid-cols-1 gap-6 p-6">
+            {/* Header */}
+            <header className="flex justify-between items-center">
+                <Button
+                    as={Link}
+                    href="/new-profile/username"
+                    variant="light"
+                >
+                    Back
+                </Button>
+                <Progress
+                    value={66}
+                    className="max-w-xs"
+                    color="secondary"
+                />
+                <Button
+                    as={Link}
+                    href="/dashboard"
+                    variant="light"
+                >
+                    Skip
+                </Button>
+            </header>
 
-                {/* Main Content */}
-                <main className="max-w-md mx-auto w-full space-y-8">
-                    <h1 className="text-4xl font-bold text-center">
-                        Add profile details
-                    </h1>
+            {/* Main Content */}
+            <main className="max-w-md mx-auto w-full space-y-8">
+                <h1 className="text-4xl font-bold text-center">
+                    Add profile details
+                </h1>
 
-                    {/* Profile Image Selection */}
-                    <div className="space-y-4">
-                        <p className="text-center">Select a profile image</p>
-                        <div className="flex justify-center gap-4">
-                            {sampleAvatars.map((avatar, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setSelectedAvatar(index)}
-                                    className={`relative rounded-full p-1 ${selectedAvatar === index ? 'ring-2 ring-purple-600' : ''
-                                        }`}
-                                >
-                                    <Avatar
-                                        src={avatar.url}
-                                        className={`w-16 h-16 ${avatar.color}`}
-                                    />
-                                </button>
-                            ))}
+                {/* Profile Image Selection */}
+                <div className="space-y-4">
+                    <p className="text-center">Select a profile image</p>
+                    <div className="flex justify-center gap-4">
+                        {sampleAvatars.map((avatar, index) => (
                             <button
-                                onClick={() => {/* Handle custom upload */ }}
-                                className="w-16 h-16 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
+                                key={index}
+                                onClick={() => setSelectedAvatar(index)}
+                                className={`relative rounded-full p-1 ${selectedAvatar === index ? 'ring-2 ring-purple-600' : ''
+                                    }`}
                             >
-                                <Plus className="w-6 h-6 text-gray-400" />
+                                <Avatar
+                                    src={avatar.url}
+                                    className={`w-16 h-16 ${avatar.color}`}
+                                />
                             </button>
-                        </div>
+                        ))}
+                        <button
+                            onClick={() => {/* Handle custom upload */ }}
+                            className="w-16 h-16 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
+                        >
+                            <Plus className="w-6 h-6 text-gray-400" />
+                        </button>
                     </div>
+                </div>
 
-                    {/* Profile Information */}
-                    <div className="space-y-6">
-                        <p className="text-center">Add title and bio</p>
-                        <Input
-                            label="Profile title"
-                            value={formData.title}
-                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            variant="bordered"
-                        />
-                        <Textarea
-                            label="Bio"
-                            value={formData.bio}
-                            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                            variant="bordered"
-                            maxRows={3}
-                            maxLength={80}
-                            endContent={
-                                <div className="absolute bottom-1 right-1 text-small text-default-400">
-                                    {formData.bio?.length || 0}/80
-                                </div>
-                            }
-                        />
-                    </div>
+                {/* Profile Information */}
+                <div className="space-y-6">
+                    <p className="text-center">Add title and bio</p>
+                    <Input
+                        label="Profile title"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        variant="bordered"
+                    />
+                    <Textarea
+                        label="Bio"
+                        value={formData.bio}
+                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                        variant="bordered"
+                        maxRows={3}
+                        maxLength={80}
+                        endContent={
+                            <div className="absolute bottom-1 right-1 text-small text-default-400">
+                                {formData.bio?.length || 0}/80
+                            </div>
+                        }
+                    />
+                </div>
 
-                    {/* Continue Button */}
-                    <Button
-                        className="w-full bg-purple-600 text-white"
-                        size="lg"
-                        radius="full"
-                        isLoading={isLoading}
-                        onPress={handleSubmit}
-                    >
-                        Continue
-                    </Button>
-                </main>
+                {/* Continue Button */}
+                <Button
+                    className="w-full bg-purple-600 text-white"
+                    size="lg"
+                    radius="full"
+                    isLoading={isLoading}
+                    onPress={handleSubmit}
+                >
+                    Continue
+                </Button>
+            </main>
 
-                {/* Footer */}
-                <footer className="fixed bottom-6 left-6">
-                    <Button
-                        variant="light"
-                        className="text-gray-500 text-sm"
-                    >
-                        Cookie preferences
-                    </Button>
-                </footer>
-            </div>
+            {/* Footer */}
+            <footer className="fixed bottom-6 left-6">
+                <Button
+                    variant="light"
+                    className="text-gray-500 text-sm"
+                >
+                    Cookie preferences
+                </Button>
+            </footer>
+        </div>
+    )
+}
+
+export default function ProfileSetup({ params }) {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ProfileContent params={params} />
         </Suspense>
     )
 }
