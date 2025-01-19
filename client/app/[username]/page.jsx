@@ -5,7 +5,7 @@ import { Pencil } from 'lucide-react'
 import { ProfileLinkCard } from "@/components/profile/profile-link-card"
 
 
-async function getProfile(username){
+async function getProfile(username) {
     try {
         const res = await fetch(`https://api.inflow.chat/${username}`, {
             rejectUnauthorized: false, // This bypasses SSL verification
@@ -29,7 +29,14 @@ async function getProfile(username){
     }
 }
 
-export default async function ProfilePage({params}) {
+export async function generateStaticParams() {
+    return [
+        { username: 'laughingzoro' },
+        { username: 'luffy' }
+    ]
+}
+
+export default async function ProfilePage({ params }) {
     const profile = await getProfile(params.username)
 
     return (
