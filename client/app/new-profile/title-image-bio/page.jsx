@@ -18,9 +18,9 @@ import { Suspense } from "react"
 // }
 
 const sampleAvatars = [
-    { url: "https://ugc.production.linktr.ee/bb3de458-6172-49a8-9e25-067bf171ba6b_untitled.webp?io=true&size=avatar", color: "bg-blue-400" },
-    { url: "https://ugc.production.linktr.ee/1e8f6d16-f479-4361-8944-1445fcf69d70_untitled.webp?io=true&size=avatar", color: "bg-red-400" },
-    { url: "https://ugc.production.linktr.ee/b73b4296-f8da-43e3-89c7-3fd8ddc5bee3_untitled.webp?io=true&size=avatar", color: "bg-green-400" },
+    { url: "/green-profile.webp", color: "bg-blue-400" },
+    { url: "/red-profile.webp", color: "bg-red-400" },
+    { url: "/blue-profile.webp", color: "bg-green-400" },
 ]
 
 function ProfileContent({ params }) {

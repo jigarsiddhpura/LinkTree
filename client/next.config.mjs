@@ -3,14 +3,9 @@ const nextConfig = {
     reactStrictMode: true,
     output: 'export',
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'mfe-onboarding.production.linktr.ee',
-                pathname: '/images/**',
-            },
-        ],
-    },
+        domains: ['inflow.chat', 'web.d363nz7582ms7r.amplifyapp.com'], // Add your image domains here
+        unoptimized: true // Try this for Amplify deployments
+    }
 };
 
 export default nextConfig;
