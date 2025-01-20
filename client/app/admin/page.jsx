@@ -96,7 +96,7 @@ export default function Home() {
 
             <main className="flex-1 p-8">
                 <div className="max-w-4xl mx-auto">
-                    <Header />
+                    <Header username={currentProfile.username} />
 
                     <div className="flex items-start justify-between mb-8">
                         <ProfileInfo currentProfile={currentProfile} />

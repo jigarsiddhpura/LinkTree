@@ -18,7 +18,7 @@ export function ChartTooltip({ active, payload, label, metrics }) {
         <Card className="border-none bg-white/80 backdrop-blur-lg">
             <CardBody className="p-4">
                 <p className="text-sm font-medium mb-2">
-                    {format(new Date(label), "EEE, d MMM yyyy")}
+                    {format(new Date(label), "EEE, d MMM yyyy")} 
                 </p>
                 <div className="space-y-1">
                     {payload.map((entry, index) => {

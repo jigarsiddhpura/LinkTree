@@ -76,7 +76,7 @@ export function SwitchProfilesModal({
                                         <div className="text-left">
                                             <p className="font-semibold">{profile.username}</p>
                                             <p className="text-sm text-gray-500">
-                                                linktr.ee/{profile.username}
+                                                inflow.chat/{profile.username}
                                             </p>
                                         </div>
                                     </div>

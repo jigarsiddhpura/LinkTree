@@ -38,7 +38,7 @@ export default function Home() {
                   placeholder="yourname"
                   startContent={
                     <div className="pointer-events-none flex items-center">
-                      <span className="text-gray-500">linktr.ee/</span>
+                      <span className="text-gray-500">inflow.chat/</span>
                     </div>
                   }
                 />

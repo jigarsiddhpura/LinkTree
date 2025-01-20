@@ -98,7 +98,7 @@ export default function ChooseUsername() {
                                 labelPlacement="outside"
                                 startContent={
                                     <div className="pointer-events-none flex items-center">
-                                        <span className="text-default-400 text-small">linktr.ee/</span>
+                                        <span className="text-default-400 text-small">inflow.chat/</span>
                                     </div>
                                 }
                                 isInvalid={!isUnique}

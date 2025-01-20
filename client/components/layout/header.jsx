@@ -3,14 +3,14 @@
 import { Button } from "@nextui-org/button"
 import { Share2, Copy } from 'lucide-react'
 
-export function Header() {
+export function Header({username}) {
     return (
         <div className="w-full bg-[#dfe8f9] rounded-xl p-4 mb-8 flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-orange-500" />
                 <span>Your Linktree is live: </span>
-                <a href="https://linktr.ee/laughingzoro" className="text-blue-500 hover:underline">
-                    linktr.ee/laughingzoro
+                <a href={`https://inflow.chat/${username}`} className="text-blue-500 hover:underline">
+                    {`inflow.chat/${username}`}
                 </a>
             </div>
             <Button
