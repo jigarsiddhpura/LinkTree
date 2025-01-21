@@ -2,42 +2,57 @@ import { notFound } from "next/navigation"
 import { Avatar } from "@nextui-org/avatar"
 import { Button } from "@nextui-org/button"
 import { Pencil } from 'lucide-react'
+import { cache } from 'react'
 import { ProfileLinkCard } from "@/components/profile/profile-link-card"
 
+// export const dynamicParams = true;
 
-async function getProfile(username) {
+// Cache the data fetching to optimize build performance
+const getProfile = async (username) => {
     try {
-        const res = await fetch(`https://api.inflow.chat/${username}`, {
-            rejectUnauthorized: false, // This bypasses SSL verification
+        const response = await fetch(`http://localhost:8080/${username}`, {
+            // next: { revalidate: 3600 } // Cache for 1 hour
         })
 
-        if (!res.ok) {
-            throw new Error('Failed to fetch profile')
-        }
-
-        const links = await res.json()
-
-        // Construct profile from links data
-        return {
-            username,
-            bio: "anime boi", // This would come from API in real implementation
-            links: links.sort((a, b) => a.position - b.position)
-        }
+        if (!response.ok) return null
+        return response.json()
     } catch (error) {
-        console.error('Error fetching profile:', error)
+        console.error(`Error fetching user ${username}:`, error)
+        return null
+    }
+}
+
+// Implement generateStaticParams with error boundary
+export async function generateStaticParams() {
+    try {
+        const response = await fetch('http://localhost:8080/api/profilenames')
+        const usernames = await response.json()
+
+        return usernames.map((user) => ({
+            username: user.username,
+        }))
+    } catch (error) {
+        // Provide fallback for build process
+        console.error('Error generating params:', error)
+        return [{ username: 'default' }]
+    }
+}
+
+// Implement middleware to handle routing
+export async function middleware(params) {
+    const user = await getUser(params.username)
+    if (!user) {
         notFound()
     }
 }
 
-export async function generateStaticParams() {
-    return [
-        { username: 'laughingzoro' },
-        { username: 'luffy' }
-    ]
-}
 
 export default async function ProfilePage({ params }) {
-    const profile = await getProfile(params.username)
+    const { username } = await params;
+    const profile = await getProfile(username)
+    const links = await profile?.links;
+
+    if (!links) return notFound();
 
     return (
         <div className="min-h-screen relative bg-gradient-to-br from-blue-200 to-purple-200">
@@ -52,7 +67,7 @@ export default async function ProfilePage({ params }) {
                     as="a"
                     href="/admin"
                     variant="flat"
-                    className="bg-white/10 text-white"
+                    className="bg-white text-blue-500 font-medium px-6"
                 >
                     Edit
                 </Button>
@@ -76,7 +91,7 @@ export default async function ProfilePage({ params }) {
 
                 {/* Links */}
                 <div className="space-y-3">
-                    {profile.links.map((link) => (
+                    {links.map((link) => (
                         link.isVisible && (
                             <ProfileLinkCard key={link.id} link={link} />
                         )
