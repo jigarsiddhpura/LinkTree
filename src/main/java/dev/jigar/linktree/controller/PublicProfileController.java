@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.jigar.linktree.dto.LinkResponseDTO;
 import dev.jigar.linktree.dto.PublicProfileResponseDTO;
 import dev.jigar.linktree.entity.Profile;
+import dev.jigar.linktree.service.AnalyticsService;
 import dev.jigar.linktree.service.LinkService;
 import dev.jigar.linktree.service.ProfileService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping

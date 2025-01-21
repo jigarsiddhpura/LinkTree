@@ -42,38 +42,28 @@ CREATE TABLE IF NOT EXISTS links (
 
 -- Analytics table
 CREATE TABLE IF NOT EXISTS analytics (
-    id UUID DEFAULT uuid_generate_v4(),
     profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     recorded_date DATE NOT NULL DEFAULT CURRENT_DATE,
     views_count INTEGER DEFAULT 0,
     unique_visitors INTEGER DEFAULT 0,
+    last_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT positive_counts CHECK (views_count >= 0 AND unique_visitors >= 0),
-    PRIMARY KEY (id, profile_id, recorded_date)
-) PARTITION BY RANGE (recorded_date);
+    PRIMARY KEY (profile_id, recorded_date)
+);
 
 -- Link analytics table
 CREATE TABLE IF NOT EXISTS link_analytics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     link_id UUID NOT NULL REFERENCES links(id) ON DELETE CASCADE,
     profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    recorded_date DATE NOT NULL DEFAULT CURRENT_DATE,
     clicks_count INTEGER DEFAULT 0,
     unique_click INTEGER DEFAULT 0,
-    created_at DATE DEFAULT CURRENT_DATE,
-    CONSTRAINT positive_clicks CHECK (clicks_count >= 0)
+    last_updated_at DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT positive_clicks CHECK (clicks_count >= 0),
+    PRIMARY KEY (link_id, profile_id, recorded_date)
 );
 
--- Custom domains table
-CREATE TABLE IF NOT EXISTS custom_domains (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-    domain_name VARCHAR(255) NOT NULL UNIQUE,
-    ssl_status VARCHAR(255) DEFAULT 'pending',
-    is_verified BOOLEAN DEFAULT FALSE,
-    dns_records JSONB DEFAULT '{}',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT domain_format CHECK (domain_name ~* '^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$')
-);
+-- I had partitioned by Date range but it causes error when the partition is empty and we try to do something so removed it
 
 -- Create indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
@@ -83,5 +73,4 @@ CREATE INDEX IF NOT EXISTS idx_links_profile_id ON links(profile_id);
 CREATE INDEX IF NOT EXISTS idx_links_position ON links(profile_id, position);
 CREATE INDEX IF NOT EXISTS idx_analytics_profile_id_date ON analytics(profile_id, recorded_date);
 CREATE INDEX IF NOT EXISTS idx_link_analytics_link_id ON link_analytics(link_id);
-CREATE INDEX IF NOT EXISTS idx_custom_domains_profile_id ON custom_domains(profile_id);
 

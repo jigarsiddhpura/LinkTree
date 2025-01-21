@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/analytics")
@@ -37,5 +38,35 @@ public class AnalyticsController {
             log.error("Invalid profile ID: " + profileIdStr);
         }
         return ResponseEntity.ok(analyticsService.getAnalytics(profileId, start, end));
+    }
+
+    @PostMapping("/profile/{profileId}/view")
+    public ResponseEntity<Void> recordProfileView(@PathVariable UUID profileId) {
+        
+        // CompletableFuture.runAsync(() -> {
+            try {
+                analyticsService.incrementProfileView(profileId);
+                log.debug("Profile view recorded successfully for profileId: {}", profileId);
+            } catch (Exception e) {
+                log.error("Error recording profile view for profileId: {}", profileId, e);
+                // Consider implementing a retry mechanism or dead letter queue
+            }
+        // });
+
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/profile/{profileId}/link/{linkId}/click")
+    public ResponseEntity<Void> recordLinkClick(@PathVariable UUID profileId,@PathVariable UUID linkId) {
+        // CompletableFuture.runAsync(() -> {
+            try {
+                analyticsService.incrementLinkClick(linkId, profileId);
+                log.debug("Link click recorded successfully for linkId: {}, profileId: {}", linkId, profileId);
+            } catch (Exception e) {
+                log.error("Error recording link click for linkId: {}, profileId: {}", linkId, profileId, e);
+            }
+        // });
+
+        return ResponseEntity.accepted().build();
     }
 }

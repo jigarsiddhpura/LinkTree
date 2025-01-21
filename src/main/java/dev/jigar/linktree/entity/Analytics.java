@@ -1,15 +1,11 @@
 package dev.jigar.linktree.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
-
 
 @Entity
 @Table(name = "analytics")
@@ -18,21 +14,32 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Analytics {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    private UUID id;
     
-    @Column(name = "profile_id", nullable = false)
-    private UUID profileId;
-    
-    @Column(name = "recorded_date", nullable = false)
-    private LocalDate recordedDate;
+    @EmbeddedId
+    private AnalyticsId id;
     
     @Column(name = "views_count")
     private Integer viewsCount = 0;
     
     @Column(name = "unique_visitors")
     private Integer uniqueVisitors = 0;
-
+    
+    @Column(name = "last_updated_at")
+    private LocalDateTime lastUpdatedAt;
+    
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdatedAt = LocalDateTime.now();
+    }
+    
+    // Custom getter for profile ID
+    public UUID getProfileId() {
+        return id != null ? id.getProfileId() : null;
+    }
+    
+    // Custom getter for recorded date
+    public LocalDate getRecordedDate() {
+        return id != null ? id.getRecordedDate() : null;
+    }
 }
