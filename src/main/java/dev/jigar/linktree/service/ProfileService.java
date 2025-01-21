@@ -83,4 +83,8 @@ public class ProfileService {
         Profile profile = profileRepository.findByUsername(username);
         return profile.getId();
     }
+
+    public List<String> getAllProfileNames() {
+        return profileRepository.findAllProfileNames();
+    }
 }

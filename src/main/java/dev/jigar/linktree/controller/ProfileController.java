@@ -1,23 +1,17 @@
 package dev.jigar.linktree.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.jigar.linktree.dto.LinkRequestDTO;
 import dev.jigar.linktree.dto.LinkResponseDTO;
 import dev.jigar.linktree.dto.ProfileRequestDTO;
 import dev.jigar.linktree.dto.ProfileResponseDTO;
@@ -26,6 +20,7 @@ import dev.jigar.linktree.service.ProfileService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -89,5 +84,12 @@ public class ProfileController {
         boolean isUnique = profileService.isUsernameUnique(username);
         return ResponseEntity.ok(isUnique);
     }
+
+    @GetMapping("/profilenames")
+    public ResponseEntity<List<String>> getProfileNames() {
+        List<String> profileNames = profileService.getAllProfileNames();
+        return ResponseEntity.ok(profileNames);
+    }
+    
 
 }

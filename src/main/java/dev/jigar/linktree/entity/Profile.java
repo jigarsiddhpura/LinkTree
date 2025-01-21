@@ -26,6 +26,10 @@ public class Profile {
     @GeneratedValue(generator = "uuid2")
     private UUID id;
 
+    // LAZY fetching means that here, initial query loads only Profile data
+    // then if there's an access for user (profile.getUser()), then a separate query is triggered for it
+    // OPTIMIZE MEMORY USAGE
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -43,7 +47,7 @@ public class Profile {
     private String profileImage;
 
     @Column(length = 255)
-    private String templateColor = "white";
+    private String templateColor ;
 
     private Boolean isPublished = false;
 

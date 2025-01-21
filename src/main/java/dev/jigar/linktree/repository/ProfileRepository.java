@@ -18,5 +18,6 @@ public interface ProfileRepository extends JpaRepository<Profile, UUID> {
     @Query("SELECT p FROM Profile p WHERE p.user.id = :userId")
     List<Profile> findByUserId(@Param("userId") UUID userId);
 
-    // List<Profile> findByUserId(UUID userId);
+    @Query("SELECT p.username FROM Profile p")
+    List<String> findAllProfileNames();
 }

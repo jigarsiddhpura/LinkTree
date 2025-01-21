@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.jigar.linktree.dto.LinkResponseDTO;
+import dev.jigar.linktree.dto.PublicProfileResponseDTO;
+import dev.jigar.linktree.entity.Profile;
 import dev.jigar.linktree.service.LinkService;
 import dev.jigar.linktree.service.ProfileService;
 
@@ -26,10 +28,12 @@ public class PublicProfileController {
     public ProfileService profileService;
 
     @GetMapping("/{username}")
-    public ResponseEntity<List<LinkResponseDTO>> getLinksByProfile(@PathVariable String username) {
+    public ResponseEntity<PublicProfileResponseDTO> getLinksByProfile(@PathVariable String username) {
         UUID profileId = profileService.getProfileIdByUsername(username);
+        Profile profile = profileService.getProfileById(profileId);
+
         List<LinkResponseDTO> links = linkService.getLinksByProfileSorted(profileId);
         // if (links.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(links);
-        return ResponseEntity.ok(links);
+        return ResponseEntity.ok(new PublicProfileResponseDTO(profile, links));
     }
 }
