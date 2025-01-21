@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown"
 import { Button } from "@nextui-org/button"
 import { ChevronDown, Calendar } from 'lucide-react'
-import { format, subDays } from "date-fns"
+import { format, subDays, endOfDay } from "date-fns"
 
 // interface DateRangeSelectorProps {
 //     value: DateRange
@@ -20,7 +20,7 @@ export function DateRangeSelector({ value, onChange }) {
             label: "Last 7 days",
             range: {
                 start: subDays(new Date(), 7),
-                end: new Date()
+                end: endOfDay(new Date())
             }
         },
         {
@@ -28,7 +28,7 @@ export function DateRangeSelector({ value, onChange }) {
             label: "Last 14 days",
             range: {
                 start: subDays(new Date(), 14),
-                end: new Date()
+                end: endOfDay(new Date())
             }
         },
         // Add custom range option in future

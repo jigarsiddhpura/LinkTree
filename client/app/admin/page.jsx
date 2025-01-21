@@ -9,10 +9,12 @@ import { ProfileInfo } from "@/components/profile/profile-info"
 import { LinkCollection } from "@/components/links/link-collection"
 import { MobilePreview } from "@/components/preview/mobile-preview"
 import { PromoCard } from "@/components/promo-card"
+import { useProfile } from '@/contexts/ProfileContext';
 
 export default function Home() {
+    const { currentProfile, setCurrentProfile } = useProfile();
+
     const [userId, setUserId] = useState(null);
-    const [currentProfile, setCurrentProfile] = useState(null)
     const [links, setLinks] = useState([])
     const [linkOrder, setLinkOrder] = useState([])
     const [templateColor, setTemplateColor] = useState(null)
@@ -36,6 +38,7 @@ export default function Home() {
                 const profiles = await response.json()
                 if (profiles.length > 0) {
                     setCurrentProfile(profiles[0])
+                    localStorage.setItem('currentProfileId', profiles[0].id)
                 }
             } catch (error) {
                 console.error('Error fetching default profile:', error)

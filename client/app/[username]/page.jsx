@@ -49,9 +49,21 @@ export async function middleware(params) {
 
 export default async function ProfilePage({ params }) {
     const { username } = await params;
-    const profile = await getProfile(username)
-    const links = await profile?.links;
 
+    const profile = await getProfile(username)
+    if (!profile) return notFound();
+
+    // (A) Server-side increment page views
+    await fetch(`http://localhost:8080/api/analytics/profile/${profile.id}/view`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        cache: "no-store" // Disable caching
+    });
+
+
+    const links = await profile?.links;
     if (!links) return notFound();
 
     return (
@@ -93,7 +105,7 @@ export default async function ProfilePage({ params }) {
                 <div className="space-y-3">
                     {links.map((link) => (
                         link.isVisible && (
-                            <ProfileLinkCard key={link.id} link={link} />
+                            <ProfileLinkCard key={link.id} link={link} linkId={link.id} profileId={profile.id} />
                         )
                     ))}
                 </div>

@@ -1,16 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useProfile } from '@/contexts/ProfileContext';
 import { DateRangeSelector } from "@/components/analytics/date-range-selector"
 import { AnalyticsChart } from "@/components/analytics/analytics-chart"
 import { Sidebar } from "@/components/layout/sidebar"
 // import { DateRange, AnalyticsDataPoint } from "@/types/analytics"
-import { subDays } from "date-fns"
+import { subDays, endOfDay } from "date-fns"
 
 export default function AnalyticsPage() {
+    const { currentProfile } = useProfile(); // NOT WORKING, SO STORING IN LOCAL STORAGE
+
     const [dateRange, setDateRange] = useState({
         start: subDays(new Date(), 7),
-        end: new Date()
+        end: endOfDay(new Date())
     })
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -18,9 +21,10 @@ export default function AnalyticsPage() {
     useEffect(() => {
         const fetchAnalytics = async () => {
             setIsLoading(true)
+            const currentProfileId = localStorage.getItem("currentProfileId")
+
             try {
-                // alert("start = "+dateRange.start.toISOString()+", end = "+dateRange.end.toISOString())
-                const response = await fetch(`https://api.inflow.chat/api/analytics/profile/637e6c2b-8322-4605-9801-2d33011cc58e/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
+                const response = await fetch(`http://localhost:8080/api/analytics/profile/${currentProfilecurrentProfileId}/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
                 if (!response.ok) throw new Error('Failed to fetch analytics')
                 const data = await response.json()
                 setData(data)
@@ -36,8 +40,8 @@ export default function AnalyticsPage() {
 
     return (
         <div className="flex min-h-screen">
-            <Sidebar/>
-            
+            <Sidebar />
+
             <div className="min-h-screen min-w-[83%] bg-gray-50">
                 {/* Sticky Header */}
                 <div className="sticky top-0 z-10 bg-white border-b">

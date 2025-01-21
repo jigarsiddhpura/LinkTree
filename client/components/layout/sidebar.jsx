@@ -48,7 +48,7 @@ export function Sidebar() {
                         <ListboxItem
                             key={item.name}
                             textValue={item.name}
-                            onClick={() => handleItemClick(item.name)}
+                            onPress={() => handleItemClick(item.name)}
                         >
                             <Link
                                 href={item.href}

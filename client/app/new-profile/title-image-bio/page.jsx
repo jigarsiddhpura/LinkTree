@@ -44,7 +44,7 @@ function ProfileContent({ params }) {
         try {
             setIsLoading(true)
             const userId = localStorage.getItem("userId");
-            alert(formData.templateColor);
+            // alert(formData.templateColor);
             const response = await fetch(`https://api.inflow.chat/api/${userId}/profile/create`, {
                 method: 'POST',
                 headers: {
