@@ -9,19 +9,19 @@ import Error from "./error"
 // export const dynamicParams = true;
 
 // Cache the data fetching to optimize build performance
-const getProfile = async (username) => {
-    try {
-        const response = await fetch(`https://api.inflow.chat/api/${username}`, {
-            // next: { revalidate: 3600 } // Cache for 1 hour
-        })
+// const getProfile = async (username) => {
+//     try {
+//         const response = await fetch(`https://api.inflow.chat/api/${username}`, {
+//             // next: { revalidate: 3600 } // Cache for 1 hour
+//         })
 
-        if (!response.ok) return null
-        return response.json()
-    } catch (error) {
-        console.error(`Error fetching user ${username}:`, error)
-        return null
-    }
-}
+//         if (!response.ok) return null
+//         return response.json()
+//     } catch (error) {
+//         console.error(`Error fetching user ${username}:`, error)
+//         return null
+//     }
+// }
 
 // Implement generateStaticParams with error boundary
 export async function generateStaticParams() {
@@ -40,38 +40,37 @@ export async function generateStaticParams() {
 }
 
 // Implement middleware to handle routing
-export async function middleware(params) {
-    const user = await getUser(params.username)
-    if (!user) {
-        // notFound()
-        <Error/>
-    }
-}
+// export async function middleware(params) {
+//     const user = await getUser(params.username)
+//     if (!user) {
+//         // notFound()
+//         <Error/>
+//     }
+// }
 
 
 export default async function ProfilePage({ params }) {
-    const { username } = await params;
+    // const { username } = await params;
 
-    const profile = await getProfile(username)
-    if (!profile) return Error();
+    // const profile = await getProfile(username)
+    // if (!profile) return Error();
 
-    // (A) Server-side increment page views
-    await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        cache: "no-store" // Disable caching
-    });
+    // // (A) Server-side increment page views
+    // await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     cache: "no-store" // Disable caching
+    // });
 
 
-    const links = await profile?.links;
-    if (!links) return notFound();
+    // const links = await profile?.links;
+    // if (!links) return notFound();
 
     return (
         <div className="min-h-screen relative bg-gradient-to-br from-blue-200 to-purple-200">
-            {/* Header */}
-            <header className="flex justify-between items-center p-4">
+            {/* <header className="flex justify-between items-center p-4">
                 <div className="flex items-center gap-2">
                     <span className="text-xl font-semibold text-white">
                         This is your Linktree.
@@ -87,7 +86,6 @@ export default async function ProfilePage({ params }) {
                 </Button>
             </header>
 
-            {/* Main Content */}
             <main className="max-w-lg mx-auto px-4 py-12">
                 <div className="flex flex-col items-center mb-8">
                     <Avatar
@@ -103,7 +101,6 @@ export default async function ProfilePage({ params }) {
                     )}
                 </div>
 
-                {/* Links */}
                 <div className="space-y-3">
                     {links.map((link) => (
                         link.isVisible && (
@@ -112,7 +109,6 @@ export default async function ProfilePage({ params }) {
                     ))}
                 </div>
 
-                {/* Join Button */}
                 <div className="mt-8 text-center">
                     <Button
                         className="bg-white font-medium px-6"
@@ -123,7 +119,10 @@ export default async function ProfilePage({ params }) {
                         Join {profile.username} on Linktree
                     </Button>
                 </div>
-            </main>
+            </main> */}
+
+            <h1>hello</h1>
+            
         </div>
     )
 }
