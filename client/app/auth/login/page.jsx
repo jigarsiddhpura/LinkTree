@@ -172,7 +172,7 @@ export default function LoginPage() {
 
                 <div className="mt-4 text-center text-sm text-gray-600">
                     Don't have an account?{" "}
-                    <Link href="/signup" className="text-primary font-medium">
+                    <Link href="/auth/signup" className="text-primary font-medium">
                         Sign Up
                     </Link>
                 </div>

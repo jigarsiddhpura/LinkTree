@@ -20,9 +20,9 @@ function TemplatesContent() {
 
     const handleContinue = () => {
         if (selectedTemplate) {
-            localStorage.setItem('selectedTemplate', selectedTemplate.id)
-            localStorage.setItem('templateColor', templateColorMap.get(selectedTemplate.id) || '')
-            router.push(`/new-profile/title-image-bio?username=${username}`)
+            // localStorage.setItem('selectedTemplate', selectedTemplate.id)
+            // localStorage.setItem('templateColor', templateColorMap.get(selectedTemplate.id) || '')
+            router.push(`/new-profile/title-image-bio?username=${username}&selectedTemplate=${selectedTemplate.id}`)
         }
     }
 

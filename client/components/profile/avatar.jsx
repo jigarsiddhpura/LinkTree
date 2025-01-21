@@ -4,12 +4,14 @@ import { Avatar } from "@nextui-org/avatar"
 import { Button } from "@nextui-org/button"
 import { Pencil } from 'lucide-react'
 
-export function ProfileAvatar() {
+export function ProfileAvatar({name}) {
     return (
         <div className="relative">
             <Avatar
                 className="w-16 h-16 text-large bg-black text-white relative top-3"
-                name="TI"
+                name={name.toUpperCase()[0]}
+                isBordered
+                color="secondary"
                 showFallback
             />
             <Button

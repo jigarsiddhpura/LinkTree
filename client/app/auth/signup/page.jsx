@@ -9,6 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const signupschema = z.object({
     email: z.string().email("Invalid email address"),
@@ -95,11 +96,11 @@ export default function SignupPage() {
                 { withCredentials: true }
             );
 
-            console.log('Signup response:', response.data);
+            // console.log('Signup response:', response.data);
 
-            // if (!response.ok) {
-            //     throw new Error('Signup failed');
-            // }
+            if (!response.ok) {
+                toast.error("User already exists");
+            }
 
             const userData = await response.data;
             

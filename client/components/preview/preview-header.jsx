@@ -16,7 +16,7 @@ export function PreviewHeader({ username, profileImage, bio }) {
             <Avatar
                 src={profileImage}
                 name={username[0].toUpperCase()}
-                className="w-20 h-20 text-large mb-4 bg-gray-700"
+                className="w-20 h-20 text-large mb-4 bg-white"
             />
             <h2 className="text-lg font-semibold mb-1">@{username}</h2>
             {bio && <p className="text-sm text-white/70 text-center mb-4">{bio}</p>}

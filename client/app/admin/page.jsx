@@ -64,32 +64,6 @@ export default function Home() {
 
     if (!userId || !currentProfile) return null
 
-    // Example profile data - replace with your actual data
-    const profile = {
-        username: "amazon_sambhav_deployments",
-        bio: "Add bio",
-        links: [
-            {
-                id: "1",
-                title: "High Level Design and Architecture - Tech Titans",
-                url: "https://youtu.be/kZbCXOpbeVQ",
-                thumbnail: "/thumbnails/architecture.jpg",
-                isVisible: true,
-                clicks: 6,
-                position: 0
-            },
-            {
-                id: "2",
-                title: "ML Workflow - Amazon Sambhav Submission",
-                url: "https://youtu.be/OqFjspgDMgg",
-                thumbnail: "/thumbnails/ml-workflow.jpg",
-                isVisible: true,
-                clicks: 3,
-                position: 1
-            }
-        ]
-    }
-
     return (
         <div className="flex min-h-screen">
             <Sidebar />
@@ -132,6 +106,7 @@ export default function Home() {
                     links={links}
                     username={currentProfile.username}
                     bio={currentProfile.bio}
+                    templateColor={currentProfile.templateColor}
                     settings={previewSettings}
                     onSettingsChange={setPreviewSettings}
                 />

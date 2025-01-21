@@ -10,6 +10,7 @@ export function MobilePreview({
     username,
     profileImage,
     bio,
+    templateColor,
     settings = { useGradientBackground: false },
     onSettingsChange
 }) {
@@ -22,9 +23,9 @@ export function MobilePreview({
 
     // Generate background style based on settings
     const backgroundStyle = useMemo(() => {
-        if (settings.templateColor && !settings.useGradientBackground) {
+        if (templateColor && !settings.useGradientBackground) {
             return {
-                background: settings.templateColor
+                background: templateColor
             }
         }
         else if (settings.useGradientBackground && settings.gradientColors) {

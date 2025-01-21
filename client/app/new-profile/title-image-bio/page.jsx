@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Plus } from 'lucide-react'
 import Link from "next/link"
 import { Suspense } from "react"
+import { templates, templateColorMap } from "@/lib/templates"
 
 // interface ProfileData {
 //     username: string
@@ -26,13 +27,15 @@ const sampleAvatars = [
 function ProfileContent({ params }) {
     const router = useRouter()
     const username = useSearchParams().get('username')
+    const selectedTemplate = useSearchParams().get('selectedTemplate')
 
     const [selectedAvatar, setSelectedAvatar] = useState(null)
     const [formData, setFormData] = useState({
-        username: params.username,
+        username: username,
         title: "",
         bio: "",
-        profileImage: ""
+        profileImage: "",
+        templateColor: templateColorMap.get(selectedTemplate) || "white"
     })
     const [isLoading, setIsLoading] = useState(false)
 
@@ -41,24 +44,28 @@ function ProfileContent({ params }) {
         try {
             setIsLoading(true)
             const userId = localStorage.getItem("userId");
+            alert(formData.templateColor);
             const response = await fetch(`https://api.inflow.chat/api/${userId}/profile/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: username,
+                    username: formData.username,
                     title: formData.title,
                     bio: formData.bio,
-                    profileImage: formData.profileImage || sampleAvatars[selectedAvatar || 0]?.url
+                    profileImage: formData.profileImage || sampleAvatars[selectedAvatar || 0]?.url,
+                    templateColor: formData.templateColor,
                 }),
-            })
+            })  
+
+            console.log(response.json())
 
             if (!response.ok) {
                 throw new Error('Failed to create profile')
             }
 
-            const data = await response.json()
+            // const data = await response.json()
             router.push('/admin') // Redirect to dashboard after successful creation
         } catch (error) {
             console.error('Error creating profile:', error)
