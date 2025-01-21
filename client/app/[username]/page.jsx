@@ -10,7 +10,7 @@ import { ProfileLinkCard } from "@/components/profile/profile-link-card"
 // Cache the data fetching to optimize build performance
 const getProfile = async (username) => {
     try {
-        const response = await fetch(`https://api.inflow.chat/${username}`, {
+        const response = await fetch(`https://api.inflow.chat/api/${username}`, {
             // next: { revalidate: 3600 } // Cache for 1 hour
         })
 
