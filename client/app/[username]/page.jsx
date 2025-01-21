@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/button"
 import { Pencil } from 'lucide-react'
 import { cache } from 'react'
 import { ProfileLinkCard } from "@/components/profile/profile-link-card"
+import Error from "./error"
 
 // export const dynamicParams = true;
 
@@ -42,7 +43,8 @@ export async function generateStaticParams() {
 export async function middleware(params) {
     const user = await getUser(params.username)
     if (!user) {
-        notFound()
+        // notFound()
+        <Error/>
     }
 }
 
@@ -51,7 +53,7 @@ export default async function ProfilePage({ params }) {
     const { username } = await params;
 
     const profile = await getProfile(username)
-    if (!profile) return notFound();
+    if (!profile) return Error();
 
     // (A) Server-side increment page views
     await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
