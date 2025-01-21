@@ -50,12 +50,13 @@ export async function generateStaticParams() {
 
 
 export default async function ProfilePage({ params }) {
-    // const { username } = await params;
+    const { username } = await params;
 
     // const profile = await getProfile(username)
-    // if (!profile) return Error();
+    const profile = { "links": [{ "id": "ca4ba4ca-6f76-402d-83aa-c2674d2260c9", "profileId": "86a4a0e7-26d3-4208-8030-f348ae65e7a4", "title": "Twitter", "url": "https://x.com/laughingzoro", "position": 1, "isVisible": true, "thumbnail": null }, { "id": "9d7e082b-fd3c-4361-9ceb-b9e06bd2bf8b", "profileId": "86a4a0e7-26d3-4208-8030-f348ae65e7a4", "title": "Link", "url": "https://www.linkedin.com/in/jigar-siddhpura/", "position": 2, "isVisible": true, "thumbnail": null }], "id": "86a4a0e7-26d3-4208-8030-f348ae65e7a4", "username": "jigar", "title": "luffy", "bio": "Pirate king", "templateColor": null, "profileImage": "/blue-profile.webp" }
+    if (!profile) return Error();
 
-    // // (A) Server-side increment page views
+    // (A) Server-side increment page views
     // await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
     //     method: "POST",
     //     headers: {
@@ -65,12 +66,13 @@ export default async function ProfilePage({ params }) {
     // });
 
 
-    // const links = await profile?.links;
-    // if (!links) return notFound();
+    const links = await profile?.links;
+    if (!links) return notFound();
 
     return (
         <div className="min-h-screen relative bg-gradient-to-br from-blue-200 to-purple-200">
-            {/* <header className="flex justify-between items-center p-4">
+            {/* Header */}
+            <header className="flex justify-between items-center p-4">
                 <div className="flex items-center gap-2">
                     <span className="text-xl font-semibold text-white">
                         This is your Linktree.
@@ -86,6 +88,7 @@ export default async function ProfilePage({ params }) {
                 </Button>
             </header>
 
+            {/* Main Content */}
             <main className="max-w-lg mx-auto px-4 py-12">
                 <div className="flex flex-col items-center mb-8">
                     <Avatar
@@ -101,6 +104,7 @@ export default async function ProfilePage({ params }) {
                     )}
                 </div>
 
+                {/* Links */}
                 <div className="space-y-3">
                     {links.map((link) => (
                         link.isVisible && (
@@ -109,6 +113,7 @@ export default async function ProfilePage({ params }) {
                     ))}
                 </div>
 
+                {/* Join Button */}
                 <div className="mt-8 text-center">
                     <Button
                         className="bg-white font-medium px-6"
@@ -119,10 +124,7 @@ export default async function ProfilePage({ params }) {
                         Join {profile.username} on Linktree
                     </Button>
                 </div>
-            </main> */}
-
-            <h1>hello</h1>
-            
+            </main>
         </div>
     )
 }
