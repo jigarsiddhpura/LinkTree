@@ -1,9 +1,6 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-drop table IF EXISTS analytics cascade;
-drop table IF EXISTS link_analytics cascade;
-
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -24,6 +21,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     title VARCHAR(255),
     bio VARCHAR(255),
     profile_image VARCHAR(255),
+    template_color VARCHAR(255),
     is_published BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

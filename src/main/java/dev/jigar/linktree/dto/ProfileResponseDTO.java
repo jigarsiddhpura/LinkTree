@@ -11,6 +11,7 @@ public class ProfileResponseDTO {
     private String username;
     private String title;
     private String bio;
+    private String templateColor;
     private String profileImage;
 
     public ProfileResponseDTO(Profile profile) {
@@ -18,6 +19,7 @@ public class ProfileResponseDTO {
         this.username = profile.getUsername();
         this.title = profile.getTitle();
         this.bio = profile.getBio();
+        this.templateColor = profile.getTemplateColor();
         this.profileImage = profile.getProfileImage();
     }
 }

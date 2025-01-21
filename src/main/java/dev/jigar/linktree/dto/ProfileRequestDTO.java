@@ -11,5 +11,6 @@ public class ProfileRequestDTO {
     private String title;
     private String bio;
     private String profileImage;
+    private String templateColor;
     // private Boolean isPublished;
 }

@@ -33,6 +33,7 @@ public class ProfileService {
         profile.setBio(requestDTO.getBio());
         profile.setTitle(requestDTO.getTitle());
         profile.setProfileImage(requestDTO.getProfileImage());
+        profile.setTemplateColor(requestDTO.getTemplateColor());
         profile.setIsPublished(false);
         profile.setCreatedAt(LocalDateTime.now());
         profile.setUpdatedAt(LocalDateTime.now());
@@ -52,6 +53,7 @@ public class ProfileService {
         existing.setUsername(requestDTO.getUsername());
         existing.setBio(requestDTO.getBio());
         existing.setProfileImage(requestDTO.getProfileImage());
+        existing.setTemplateColor(requestDTO.getTemplateColor());
         existing.setIsPublished(false);
         existing.setUpdatedAt(LocalDateTime.now());
 

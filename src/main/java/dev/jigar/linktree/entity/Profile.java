@@ -42,6 +42,8 @@ public class Profile {
     @Column(length = 255)
     private String profileImage;
 
+    @Column(length = 255)
+    private String templateColor = "white";
 
     private Boolean isPublished = false;
 
