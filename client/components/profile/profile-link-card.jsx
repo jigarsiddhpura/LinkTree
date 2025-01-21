@@ -12,7 +12,7 @@ export function ProfileLinkCard({ link, linkId, profileId }) {
     const handleClick = async () => {
         try {
             // 1) Fire analytics
-            await fetch(`http://localhost:8080/api/analytics/profile/${profileId}/link/${linkId}/click`, {
+            await fetch(`https://api.inflow.chat/api/analytics/profile/${profileId}/link/${linkId}/click`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" }
             });

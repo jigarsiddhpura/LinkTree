@@ -24,7 +24,7 @@ export default function AnalyticsPage() {
             const currentProfileId = localStorage.getItem("currentProfileId")
 
             try {
-                const response = await fetch(`http://localhost:8080/api/analytics/profile/${currentProfilecurrentProfileId}/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
+                const response = await fetch(`https://api.inflow.chat/api/analytics/profile/${currentProfilecurrentProfileId}/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`)
                 if (!response.ok) throw new Error('Failed to fetch analytics')
                 const data = await response.json()
                 setData(data)

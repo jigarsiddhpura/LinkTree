@@ -10,7 +10,7 @@ import { ProfileLinkCard } from "@/components/profile/profile-link-card"
 // Cache the data fetching to optimize build performance
 const getProfile = async (username) => {
     try {
-        const response = await fetch(`http://localhost:8080/${username}`, {
+        const response = await fetch(`https://api.inflow.chat/${username}`, {
             // next: { revalidate: 3600 } // Cache for 1 hour
         })
 
@@ -25,7 +25,7 @@ const getProfile = async (username) => {
 // Implement generateStaticParams with error boundary
 export async function generateStaticParams() {
     try {
-        const response = await fetch('http://localhost:8080/api/profilenames')
+        const response = await fetch('https://api.inflow.chat/api/profilenames')
         const usernames = await response.json()
 
         return usernames.map((user) => ({
@@ -54,7 +54,7 @@ export default async function ProfilePage({ params }) {
     if (!profile) return notFound();
 
     // (A) Server-side increment page views
-    await fetch(`http://localhost:8080/api/analytics/profile/${profile.id}/view`, {
+    await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
