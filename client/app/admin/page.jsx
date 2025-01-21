@@ -38,7 +38,6 @@ export default function Home() {
                 const profiles = await response.json()
                 if (profiles.length > 0) {
                     setCurrentProfile(profiles[0])
-                    localStorage.setItem('currentProfileId', profiles[0].id)
                 }
             } catch (error) {
                 console.error('Error fetching default profile:', error)
@@ -50,6 +49,7 @@ export default function Home() {
 
     useEffect(() => {
         if (!currentProfile) return
+        localStorage.setItem("currentProfileId", currentProfile?.id)
         const fetchLinks = async () => {
             try {
                 const response = await fetch(`https://api.inflow.chat/api/profile/${currentProfile.id}/links`)
