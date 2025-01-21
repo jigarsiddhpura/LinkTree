@@ -35,22 +35,35 @@ export async function generateStaticParams() {
 // }
 
 
-export function ProfileClient({ initialProfile, username }) {
-
+export function ProfileClient({ initialProfile }) {
     const [profile, setProfile] = useState(initialProfile);
-    const [isLoading, setIsLoading] = useState(false);
+    if (!profile) return (
+        <Error/>
+    )
 
-    // (A) Server-side increment page views
-    // await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     cache: "no-store" // Disable caching
-    // });
+    useEffect(() => {
+        // Update view client side
+        const updateView = async () => {
+            try {
+                const response = await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    cache: "no-store" // Disable caching
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to update view count");
+                }
+            } catch (error) {
+                console.error("Error updating view count:", error);
+            }
+        }
+        updateView();
+    }, [profile])
 
     const links = profile?.links;
-    if (!links) return notFound();
 
     return (
         <div className="min-h-screen relative bg-gradient-to-br from-blue-200 to-purple-200">
