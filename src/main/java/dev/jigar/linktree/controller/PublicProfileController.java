@@ -20,7 +20,7 @@ import dev.jigar.linktree.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class PublicProfileController {
 
     @Autowired
