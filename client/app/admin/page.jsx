@@ -26,14 +26,14 @@ export default function Home() {
 
     useEffect(() => {
         setUserId(localStorage.getItem("userId"))
-        setTemplateColor(localStorage.getItem("templateColor"))
+        // setTemplateColor(localStorage.getItem("templateColor"))
     }, [])
 
     useEffect(() => {
         if (!userId) return
         const fetchDefaultProfile = async () => {
             try {
-                const response = await fetch(`https://api.inflow.chat/api/${userId}/profiles`)
+                const response = await fetch(`http://localhost:8080/api/${userId}/profiles`)
                 if (!response.ok) throw new Error('Failed to fetch profiles')
                 const profiles = await response.json()
                 if (profiles.length > 0) {
@@ -52,7 +52,7 @@ export default function Home() {
         localStorage.setItem("currentProfileId", currentProfile?.id)
         const fetchLinks = async () => {
             try {
-                const response = await fetch(`https://api.inflow.chat/api/profile/${currentProfile.id}/links`)
+                const response = await fetch(`http://localhost:8080/api/profile/${currentProfile.id}/links`)
                 if (!response.ok) throw new Error('Failed to fetch links')
                 const fetchedLinks = await response.json()
                 setLinks(fetchedLinks)

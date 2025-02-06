@@ -159,7 +159,7 @@ export default function NavBar() {
                 <NavbarContent justify="end" className="relative left-20">
                     <NavbarItem>
                         <Button radius="sm" variant="ghost" className="bg-slate-100 py-6 px-2"
-                        onPress={() => router.push("/auth/login")}
+                        onClick={() => router.push("/auth/login")}
                         >
                             Log in
                         </Button>
@@ -167,7 +167,7 @@ export default function NavBar() {
 
                     <NavbarItem>
                         <Button radius="sm" variant="solid" className="bg-black hover:bg-slate-800 text-white rounded-3xl px-4 py-6"
-                        onPress={() => router.push("/auth/signup")}
+                        onClick={() => router.push("/auth/signup")}
                         >Sign up free</Button>
                     </NavbarItem>
                 </NavbarContent>

@@ -29,7 +29,7 @@ export default function ChooseUsername() {
     const checkUsername = async (value) => {
         setIsChecking(true)
         try {
-            const response = await fetch(`https://api.inflow.chat/api/profile/check-username/${value}`,
+            const response = await fetch(`http://localhost:8080/api/profile/check-username/${value}`,
                 {
                     method: 'POST',
                     headers: {
@@ -98,7 +98,7 @@ export default function ChooseUsername() {
                                 labelPlacement="outside"
                                 startContent={
                                     <div className="pointer-events-none flex items-center">
-                                        <span className="text-default-400 text-small">inflow.chat/</span>
+                                        <span className="text-default-400 text-small">linktr.ee/</span>
                                     </div>
                                 }
                                 isInvalid={!isUnique}

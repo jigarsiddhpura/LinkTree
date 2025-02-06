@@ -36,7 +36,7 @@ export function MobilePreview({
         return {
             background: "#cacaca"
         }
-    }, [settings])
+    }, [settings, templateColor])
 
     return (
         <div className="relative w-[400px]">

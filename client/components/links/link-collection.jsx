@@ -36,7 +36,7 @@ export function LinkCollection({ currentProfileId, links, onLinkChange, linkOrde
         const updateOrder = async () => {
             if (!currentProfileId) return
             try {
-                await fetch(`https://api.inflow.chat/api/links/order`, {
+                await fetch(`http://localhost:8080/api/links/order`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export function LinkCollection({ currentProfileId, links, onLinkChange, linkOrde
     const handleEdit = async (id, updates) => {
         if (!currentProfileId) return
         try {
-            const response = await fetch(`https://api.inflow.chat/api/links/${id}`, {
+            const response = await fetch(`http://localhost:8080/api/links/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export function LinkCollection({ currentProfileId, links, onLinkChange, linkOrde
     const handleCreate = async (newLink) => {
         if (!currentProfileId) return
         try {
-            const response = await fetch(`https://api.inflow.chat/api/links`, {
+            const response = await fetch(`http://localhost:8080/api/links`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export function LinkCollection({ currentProfileId, links, onLinkChange, linkOrde
     const handleDelete = async (id) => {
         if (!currentProfileId) return
         try {
-            await fetch(`https://api.inflow.chat/api/links/${id}`, {
+            await fetch(`http://localhost:8080/api/links/${id}`, {
                 method: 'DELETE',
             })
             onLinkChange(links.filter(link => link.id !== id))

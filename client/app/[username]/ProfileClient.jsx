@@ -12,7 +12,7 @@ import {useState, useEffect} from "react"
 // Implement generateStaticParams with error boundary
 export async function generateStaticParams() {
     try {
-        const response = await fetch('https://api.inflow.chat/api/profilenames')
+        const response = await fetch('http://localhost:8080/api/profilenames')
         const usernames = await response.json()
 
         return usernames.map((user) => ({
@@ -45,7 +45,7 @@ export function ProfileClient({ initialProfile }) {
         // Update view client side
         const updateView = async () => {
             try {
-                const response = await fetch(`https://api.inflow.chat/api/analytics/profile/${profile.id}/view`, {
+                const response = await fetch(`http://localhost:8080/api/analytics/profile/${profile.id}/view`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

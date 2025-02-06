@@ -27,7 +27,7 @@ export function SwitchProfilesModal({
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const response = await fetch(`https://api.inflow.chat/api/${userId}/profiles`)
+                const response = await fetch(`http://localhost:8080/api/${userId}/profiles`)
                 if (!response.ok) throw new Error('Failed to fetch profiles')
                 const data = await response.json()
                 setProfiles(data)
@@ -76,7 +76,7 @@ export function SwitchProfilesModal({
                                         <div className="text-left">
                                             <p className="font-semibold">{profile.username}</p>
                                             <p className="text-sm text-gray-500">
-                                                inflow.chat/{profile.username}
+                                                linktr.ee/{profile.username}
                                             </p>
                                         </div>
                                     </div>

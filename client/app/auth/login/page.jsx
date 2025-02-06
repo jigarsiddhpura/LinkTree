@@ -91,7 +91,7 @@ export default function LoginPage() {
     const onSubmit = async (data) => {
         try {
             // Login request
-            const response = await axios.post('https://api.inflow.chat/api/auth/login',
+            const response = await axios.post('http://localhost:8080/api/auth/login',
                 data,
                 { withCredentials: true }
             );
@@ -100,7 +100,7 @@ export default function LoginPage() {
             localStorage.setItem('userId', userData.id);
 
             // Profile count request
-            const profileCount = await axios.get(`https://api.inflow.chat/api/${userData.id}/profile/count`,
+            const profileCount = await axios.get(`http://localhost:8080/api/${userData.id}/profile/count`,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 }
