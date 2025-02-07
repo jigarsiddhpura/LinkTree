@@ -7,4 +7,4 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /target/linktree-backend.jar linktree-backend.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "linktree-backend.jar"]
+ENTRYPOINT ["java", "-jar", "linktree-backend.jar", "--spring.profiles.active=prod"]
