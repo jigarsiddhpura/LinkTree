@@ -1,23 +1,10 @@
-# First stage: Build the application
-FROM ubuntu:latest AS build
-
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-
-# Copy the project files
+# compile and package my application
+FROM maven:3.8.5-openjdk-17 AS build
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Build the application using Maven Wrapper
-RUN ./mvnw package
-
-# Second stage: Create a minimal runtime image
-FROM openjdk:17-jdk-slim
-
-# Expose application port
+# run my application
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/linktree-backend.jar linktree-backend.jar
 EXPOSE 8080
-
-# Copy the built JAR from the target directory
-COPY --from=target /target/linktree-backend.jar app.jar
-
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "linktree-backend.jar"]
