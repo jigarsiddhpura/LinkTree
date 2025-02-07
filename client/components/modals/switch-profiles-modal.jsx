@@ -27,7 +27,7 @@ export function SwitchProfilesModal({
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/${userId}/profiles`)
+                const response = await fetch(`https://linktree-backend-hky4.onrender.com/api/${userId}/profiles`)
                 if (!response.ok) throw new Error('Failed to fetch profiles')
                 const data = await response.json()
                 setProfiles(data)

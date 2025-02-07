@@ -3,7 +3,7 @@ import {ProfileClient}  from './ProfileClient';
 // Cache the data fetching to optimize build performance
 export const getProfile = async (username) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/${username}`, {
+        const response = await fetch(`https://linktree-backend-hky4.onrender.com/api/${username}`, {
             // next: { revalidate: 3600 } // Cache for 1 hour
         })
 

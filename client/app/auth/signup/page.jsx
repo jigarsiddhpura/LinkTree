@@ -91,7 +91,7 @@ export default function SignupPage() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/signup',
+            const response = await axios.post('https://linktree-backend-hky4.onrender.com/api/auth/signup',
                 data,
                 { withCredentials: true }
             );

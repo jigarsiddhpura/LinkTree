@@ -29,7 +29,7 @@ export default function ChooseUsername() {
     const checkUsername = async (value) => {
         setIsChecking(true)
         try {
-            const response = await fetch(`http://localhost:8080/api/profile/check-username/${value}`,
+            const response = await fetch(`https://linktree-backend-hky4.onrender.com/api/profile/check-username/${value}`,
                 {
                     method: 'POST',
                     headers: {

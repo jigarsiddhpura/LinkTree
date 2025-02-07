@@ -19,7 +19,7 @@ function AnalyticsContent({dateRange}) {
 
             try {
                 const response = await fetch(
-                    `http://localhost:8080/api/analytics/profile/${currentProfileId}/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`
+                    `https://linktree-backend-hky4.onrender.com/api/analytics/profile/${currentProfileId}/stats?start=${dateRange.start.toISOString()}&end=${dateRange.end.toISOString()}`
                 );
                 if (!response.ok) throw new Error("Failed to fetch analytics");
                 const data = await response.json();

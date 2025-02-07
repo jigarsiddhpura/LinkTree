@@ -45,7 +45,7 @@ function ProfileContent({ params }) {
             setIsLoading(true)
             const userId = localStorage.getItem("userId");
             // alert(formData.templateColor);
-            const response = await fetch(`http://localhost:8080/api/${userId}/profile/create`, {
+            const response = await fetch(`https://linktree-backend-hky4.onrender.com/api/${userId}/profile/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
