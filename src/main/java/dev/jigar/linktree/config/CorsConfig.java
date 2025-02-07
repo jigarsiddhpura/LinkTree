@@ -10,7 +10,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("https://inflow.chat", "http://localhost:3000", "https://web.d363nz7582ms7r.amplifyapp.com")
+            .allowedOrigins("http://localhost:3000", "https://web.d3vtgzvs8xalj6.amplifyapp.com")
             .allowCredentials(true)
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
