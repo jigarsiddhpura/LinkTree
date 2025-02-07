@@ -1,14 +1,23 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk-alpine
+# First stage: Build the application
+FROM ubuntu:latest AS build
 
-# Set the working directory inside the container
-WORKDIR /app
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
 
-# Copy the Maven build artifact into the container
-COPY target/linktree-backend.jar app.jar
+# Copy the project files
+COPY . .
 
-# Expose the application port
+# Build the application using Maven Wrapper
+RUN ./mvnw package
+
+# Second stage: Create a minimal runtime image
+FROM openjdk:17-jdk-slim
+
+# Expose application port
 EXPOSE 8080
 
-# Set the entry point to run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
+# Copy the built JAR from the target directory
+COPY --from=target /target/linktree-backend.jar app.jar
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
