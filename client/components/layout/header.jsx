@@ -9,7 +9,7 @@ export function Header({username}) {
             <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-orange-500" />
                 <span>Your Linktree is live: </span>
-                <a href={`http://localhost:3000${username}`} target="_blank" className="text-blue-500 hover:underline">
+                <a href={`https://web.d3vtgzvs8xalj6.amplifyapp.com/${username}`} target="_blank" className="text-blue-500 hover:underline">
                     {`linktr.ee/${username}`}
                 </a>
             </div>
